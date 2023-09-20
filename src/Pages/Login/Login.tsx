@@ -22,6 +22,15 @@ export default function Login() {
     });
   };
 
+  const handleLocalStorage = (userEmail: string) => {
+    const userData = { email: userEmail };
+    localStorage.setItem('user', JSON.stringify(userData));
+  };
+
+  const handleClick = () => {
+    handleLocalStorage(loginData.email);
+  };
+
   return (
     <div>
       <form>
@@ -37,7 +46,14 @@ export default function Login() {
           name="password"
           onChange={ handleChange }
         />
-        <button data-testid="login-submit-btn" disabled={ !isDisabled }>Enter</button>
+        <button
+          onClick={ handleClick }
+          data-testid="login-submit-btn"
+          disabled={ !isDisabled }
+        >
+          Enter
+
+        </button>
       </form>
       <div>{loginData.email}</div>
     </div>
