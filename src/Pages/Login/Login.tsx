@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const INITIAL_DATA_USER = {
   email: '',
@@ -6,6 +7,7 @@ const INITIAL_DATA_USER = {
 };
 
 export default function Login() {
+  const navigate = useNavigate();
   const [loginData, setLoginData] = useState(INITIAL_DATA_USER);
 
   const inputsValidation = (email: string, password: string) => {
@@ -29,6 +31,7 @@ export default function Login() {
 
   const handleClick = () => {
     handleLocalStorage(loginData.email);
+    navigate('/meals');
   };
 
   return (
