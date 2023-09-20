@@ -37,12 +37,16 @@ export default function Login() {
   return (
     <div>
       <form>
-        <input
-          type="email"
-          data-testid="email-input"
-          name="email"
-          onChange={ handleChange }
-        />
+        <label htmlFor="email">
+          Email:
+          <input
+            type="email"
+            data-testid="email-input"
+            name="email"
+            onChange={ handleChange }
+          />
+        </label>
+        Password:
         <input
           type="password"
           data-testid="password-input"
