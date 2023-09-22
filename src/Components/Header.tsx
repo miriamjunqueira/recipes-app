@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 
 function Header() {
   const location = useLocation();
@@ -13,36 +13,32 @@ function Header() {
 
   const currentRoute = location.pathname;
   const pageTitle: string = routeTitle[currentRoute];
-
   const searchVisible = location.pathname === '/meals' || location.pathname === '/drinks';
 
   return (
-    <>
-      <header className="header-container" id="cabecalho">
-        <div>
+    <header className="header-container" id="cabecalho">
+      <div>
+        <Link to="/profile">
           <img
             data-testid="profile-top-btn"
             src="src/images/profileIcon.svg"
             alt="botao-de-perfil"
           />
-        </div>
-        <div>
-          {searchVisible
-                    && (
-                      <img
-                        data-testid="search-top-btn"
-                        src="src/images/searchIcon.svg"
-                        alt="botao-pesquisar"
-                      />
-                    )}
-        </div>
-        <p data-testid="page-title">
-          {pageTitle}
-        </p>
-      </header>
-
-      <p>testeeeeee</p>
-    </>
+        </Link>
+      </div>
+      <div>
+        {searchVisible && (
+          <img
+            data-testid="search-top-btn"
+            src="src/images/searchIcon.svg"
+            alt="botao-pesquisar"
+          />
+        )}
+      </div>
+      <p data-testid="page-title">
+        {pageTitle}
+      </p>
+    </header>
   );
 }
 
