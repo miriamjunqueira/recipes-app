@@ -10,7 +10,7 @@ export default function SearchBar() {
         placeholder="Procure uma receita"
       />
       <label htmlFor="ingredient">
-        Ingrediente
+        Ingredient
         <input
           type="radio"
           name="typeSearch"
@@ -19,7 +19,7 @@ export default function SearchBar() {
         />
       </label>
       <label htmlFor="nameSearch">
-        Nome
+        Name
         <input
           type="radio"
           name="typeSearch"
@@ -28,7 +28,7 @@ export default function SearchBar() {
         />
       </label>
       <label htmlFor="firstLetter">
-        Primeira Letra
+        First letter
         <input
           type="radio"
           name="typeSearch"

@@ -16,13 +16,14 @@ describe('Teste do AppReceitas', () => {
     expect(emailInput && passwordInput && enterButton).toBeInTheDocument();
   });
 
-  test('Testa se ao escrever no input ela salva no State do User', async () => {
-    const { user } = renderWithRouter(<App />);
-    const emailInput = screen.getByTestId(emailTestId);
-    await user.type(emailInput, emailTest);
-    const email = screen.getByText(emailTest);
-    expect(email).toBeInTheDocument();
-  });
+  // ESSE TESTE FICOU INÚTIL, ESTÁVAMOS USANDO PARA TESTAR SE SALVA O STATE, NO TESTE ABAIXO ISSO É FEITO JUNTO COM O LOCALSTORAGE
+  // test('Testa se ao escrever no input ela salva no State do User', async () => {
+  //   const { user } = renderWithRouter(<App />);
+  //   const emailInput = screen.getByTestId(emailTestId);
+  //   await user.type(emailInput, emailTest);
+  //   const email = screen.getByText(emailTest);
+  //   expect(email).toBeInTheDocument();
+  // });
 
   test('Testa se os dados foram salvos LocalStorage', async () => {
     const { user } = renderWithRouter(<App />);
