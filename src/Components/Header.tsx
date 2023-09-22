@@ -1,7 +1,6 @@
 import { useLocation, Link } from 'react-router-dom';
 import { useState } from 'react';
 
-
 function Header() {
   const location = useLocation();
   const [showSearch, setShowSearch] = useState(false);
