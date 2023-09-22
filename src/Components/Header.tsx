@@ -1,5 +1,6 @@
 import { useLocation, Link } from 'react-router-dom';
 import { useState } from 'react';
+import SearchBar from './SearchBar';
 
 function Header() {
   const location = useLocation();
@@ -45,12 +46,7 @@ function Header() {
         )}
       </div>
       {showSearch && (
-        <input
-          type="text"
-          data-testid="search-input"
-          name="search"
-          placeholder="Procure uma receita"
-        />
+        <SearchBar />
       )}
       <p data-testid="page-title">
         {pageTitle}
