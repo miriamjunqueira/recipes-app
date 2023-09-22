@@ -1,7 +1,10 @@
 import { useLocation, Link } from 'react-router-dom';
+import { useState } from 'react';
+
 
 function Header() {
   const location = useLocation();
+  const [showSearch, setShowSearch] = useState(false);
 
   const routeTitle: Record<string, string> = {
     '/meals': 'Meals',
@@ -15,10 +18,14 @@ function Header() {
   const pageTitle: string = routeTitle[currentRoute];
   const searchVisible = location.pathname === '/meals' || location.pathname === '/drinks';
 
+  const handleSearchClick = () => {
+    setShowSearch(!showSearch);
+  };
+
   return (
     <header className="header-container" id="cabecalho">
       <div>
-        <Link to="/profile">
+        <Link to="/profile" onClick={ () => setShowSearch(false) }>
           <img
             data-testid="profile-top-btn"
             src="src/images/profileIcon.svg"
@@ -28,13 +35,24 @@ function Header() {
       </div>
       <div>
         {searchVisible && (
-          <img
-            data-testid="search-top-btn"
-            src="src/images/searchIcon.svg"
-            alt="botao-pesquisar"
-          />
+          <button onClick={ handleSearchClick }>
+            <img
+              data-testid="search-top-btn"
+              src="src/images/searchIcon.svg"
+              alt="botao-pesquisar"
+
+            />
+          </button>
         )}
       </div>
+      {showSearch && (
+        <input
+          type="text"
+          data-testid="search-input"
+          name="search"
+          placeholder="Procure uma receita"
+        />
+      )}
       <p data-testid="page-title">
         {pageTitle}
       </p>

@@ -48,4 +48,11 @@ describe('Teste do AppReceitas', () => {
     await user.click(profileButton);
     expect(searchButton).not.toBeInTheDocument();
   });
+  test('Testa se ao clicar no botão de pesquisa o input de texto aparece para digitar', async () => {
+    const { user } = renderWithRouter(<App />, { route: '/meals' });
+    const searchButton = screen.getByTestId('search-top-btn');
+    await user.click(searchButton);
+    const searchInput = screen.getByTestId('search-input');
+    expect(searchInput).toBeInTheDocument();
+  });
 });
