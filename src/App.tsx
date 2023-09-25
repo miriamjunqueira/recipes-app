@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './Pages/Login/Login';
 import Meals from './Pages/Meals/Meals';
 import Layout from './Components/Layout';
+import Profile from './Pages/Profile/Profile';
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
       <Route element={ <Layout /> }>
         <Route path="/meals" element={ <Meals /> } />
         <Route path="/drinks" element={ <Meals /> } />
-        <Route path="/profile" element={ <Meals /> } />
+        <Route path="/profile" element={ <Profile /> } />
         <Route path="/done-recipes" element={ <Meals /> } />
         <Route path="/favorite-recipes" element={ <Meals /> } />
       </Route>
