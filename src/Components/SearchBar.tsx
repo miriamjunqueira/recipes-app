@@ -8,8 +8,8 @@ export default function SearchBar() {
   const [searchedWord, setSearchedWord] = useState('');
   const location = useLocation();
   const { setFoodInfos } = useContext(UserContext);
-
-  const urlForApi = location.pathname === '/meals' ? 'themealdb' : 'thecocktaildb';
+  const { pathname } = location;
+  const urlForApi = pathname === '/meals' ? 'themealdb' : 'thecocktaildb';
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRadioButtons(e.target.value);
@@ -26,7 +26,9 @@ export default function SearchBar() {
     }
     if (radioButton === 'Name') {
       const nameData = await fetchRecipesApi(urlForApi, 'search.php?s', searchedWord);
-      setFoodInfos(nameData);
+      if (pathname === '/meals') {
+        setFoodInfos(nameData.meals);
+      }
     }
     if (radioButton === 'Ingredient') {
       const ingredientData = await
