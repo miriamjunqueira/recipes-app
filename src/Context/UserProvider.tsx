@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import UserContext, { DrinksType, MealsType } from './UserContext';
-import fetchRecipesApi from '../Services/API';
 
 type UserProviderProps = {
   children: React.ReactNode;

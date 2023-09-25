@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import fetchRecipesApi from '../Services/API';
 import UserContext from '../Context/UserContext';
@@ -7,13 +7,9 @@ export default function SearchBar() {
   const [radioButton, setRadioButtons] = useState('Name');
   const [searchedWord, setSearchedWord] = useState('');
   const location = useLocation();
-  const { setFoodInfos, foodInfos } = useContext(UserContext);
+  const { setFoodInfos } = useContext(UserContext);
 
   const urlForApi = location.pathname === '/meals' ? 'themealdb' : 'thecocktaildb';
-  console.log(urlForApi);
-  console.log(searchedWord);
-  console.log(radioButton);
-  console.log(foodInfos);
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRadioButtons(e.target.value);
@@ -30,20 +26,17 @@ export default function SearchBar() {
     }
     if (radioButton === 'Name') {
       const nameData = await fetchRecipesApi(urlForApi, 'search.php?s', searchedWord);
-      console.log(nameData);
-      // setFoodInfos(nameData);
+      setFoodInfos(nameData);
     }
     if (radioButton === 'Ingredient') {
       const ingredientData = await
       fetchRecipesApi(urlForApi, 'filter.php?i', searchedWord);
-      console.log(ingredientData);
-      // setFoodInfos(ingredientData);
+      setFoodInfos(ingredientData);
     }
     if (radioButton === 'First Letter' && searchedWord.length === 1) {
       const firstLetterData = await
       fetchRecipesApi(urlForApi, 'search.php?f', searchedWord);
-      console.log(firstLetterData);
-      // setFoodInfos(firstLetterData);
+      setFoodInfos(firstLetterData);
     }
   };
 
