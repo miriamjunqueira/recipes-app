@@ -92,7 +92,6 @@ export default function SearchBar() {
         </label>
         <button data-testid="exec-search-btn">Pesquisa</button>
       </form>
-      <Recipes />
     </div>
   );
 }
