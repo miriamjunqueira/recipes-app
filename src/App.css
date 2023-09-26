@@ -70,5 +70,6 @@
 footer {
   bottom: 0px;
   position: fixed;
+  a { top: 0 } /* no unit */
 }
 
