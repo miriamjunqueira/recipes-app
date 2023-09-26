@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import fetchRecipesApi from '../Services/API';
 import UserContext from '../Context/UserContext';
-import Recipes from './Recipes';
+import Recipes from './Recipes/Recipes';
 
 export default function SearchBar() {
   const [radioButton, setRadioButtons] = useState('Name');

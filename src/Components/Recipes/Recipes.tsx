@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import UserContext, { DrinksType, MealsType } from '../Context/UserContext';
+import UserContext, { DrinksType, MealsType } from '../../Context/UserContext';
 
 export default function Recipes() {
   const { foodInfos } = useContext(UserContext);
