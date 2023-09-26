@@ -7,7 +7,7 @@ import Login from './Pages/Login/Login';
 import Meals from './Pages/Meals/Meals';
 import Layout from './Components/Layout';
 import Profile from './Pages/Profile/Profile';
-import Drinks from './Pages/Drinks';
+import Drinks from './Pages/Drinks/Drinks';
 
 function App() {
   return (
