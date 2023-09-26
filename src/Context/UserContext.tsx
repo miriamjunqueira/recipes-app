@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 
 export type MealsType = {
+  idDrink?: string;
   idMeal: string;
   strMeal: string;
   strCategory: string;
@@ -8,6 +9,7 @@ export type MealsType = {
 };
 
 export type DrinksType = {
+  idMeal?: string;
   idDrink: string;
   strDrink: string;
   strDrinkThumb: string;

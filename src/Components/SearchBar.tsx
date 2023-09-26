@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import fetchRecipesApi from '../Services/API';
 import UserContext from '../Context/UserContext';
+import Recipes from './Recipes';
 
 export default function SearchBar() {
   const [radioButton, setRadioButtons] = useState('Name');
@@ -43,9 +44,6 @@ export default function SearchBar() {
       const firstLetterData = await
       fetchRecipesApi(urlForApi, 'search.php?f', searchedWord, pathname);
       setFoodInfos(firstLetterData);
-    }
-    if (foodInfos === null) {
-      window.alert("Sorry, we haven't found any recipes for these filters.");
     }
   };
 
@@ -94,6 +92,7 @@ export default function SearchBar() {
         </label>
         <button data-testid="exec-search-btn">Pesquisa</button>
       </form>
+      <Recipes />
     </div>
   );
 }
