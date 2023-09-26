@@ -7,9 +7,10 @@ export default function SearchBar() {
   const [radioButton, setRadioButtons] = useState('Name');
   const [searchedWord, setSearchedWord] = useState('');
   const location = useLocation();
-  const { setFoodInfos } = useContext(UserContext);
+  const { setFoodInfos, foodInfos } = useContext(UserContext);
   const { pathname } = location;
   const urlForApi = pathname === '/meals' ? 'themealdb' : 'thecocktaildb';
+  console.log(foodInfos);
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRadioButtons(e.target.value);
@@ -25,20 +26,26 @@ export default function SearchBar() {
       window.alert('Your search must have only 1 (one) character');
     }
     if (radioButton === 'Name') {
-      const nameData = await fetchRecipesApi(urlForApi, 'search.php?s', searchedWord);
-      if (pathname === '/meals') {
-        setFoodInfos(nameData.meals);
-      }
+      const nameData = await fetchRecipesApi(
+        urlForApi,
+        'search.php?s',
+        searchedWord,
+        pathname,
+      );
+      setFoodInfos(nameData);
     }
     if (radioButton === 'Ingredient') {
       const ingredientData = await
-      fetchRecipesApi(urlForApi, 'filter.php?i', searchedWord);
+      fetchRecipesApi(urlForApi, 'filter.php?i', searchedWord, pathname);
       setFoodInfos(ingredientData);
     }
     if (radioButton === 'First Letter' && searchedWord.length === 1) {
       const firstLetterData = await
-      fetchRecipesApi(urlForApi, 'search.php?f', searchedWord);
+      fetchRecipesApi(urlForApi, 'search.php?f', searchedWord, pathname);
       setFoodInfos(firstLetterData);
+    }
+    if (foodInfos === null) {
+      window.alert("Sorry, we haven't found any recipes for these filters.");
     }
   };
 
