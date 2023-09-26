@@ -3,7 +3,7 @@ import React from 'react';
 export default function Meals() {
   return (
     <div>
-      <p>Meals</p>
+      <h3>Meals!</h3>
     </div>
   );
 }
