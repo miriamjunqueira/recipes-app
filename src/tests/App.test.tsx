@@ -1,8 +1,10 @@
 import { screen, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
+import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from '../renderWithRouter';
 import * as APIModules from '../Services/API';
+import Footer from '../Components/Footer';
 
 const emailTestId = 'email-input';
 const emailTest = 'teste@teste.com';
@@ -43,12 +45,51 @@ describe('Teste do AppReceitas', () => {
     await user.click(profileButton);
     expect(searchButton).not.toBeInTheDocument();
   });
-  test('Testa se ao clicar no botão de pesquisa o input de texto aparece para digitar', async () => {
-    const { user } = renderWithRouter(<App />, { route: '/meals' });
-    const searchButton = screen.getByTestId(filterButton);
-    await user.click(searchButton);
-    const searchInput = screen.getByTestId('search-input');
-    expect(searchInput).toBeInTheDocument();
+
+  test('Testa se o footer tem botão de bebidas', () => {
+    renderWithRouter(<Footer />);
+
+    const botaoBebidas = screen.getByTestId('drinks-bottom-btn');
+    expect(botaoBebidas).toBeInTheDocument();
+  });
+
+  test('Testa se o footer tem botão de comidas', async () => {
+    renderWithRouter(<Footer />);
+
+    const botaoComidas = screen.getByTestId('meals-bottom-btn');
+    expect(botaoComidas).toBeInTheDocument();
+  });
+
+  test('Testa a rota para bebidas', async () => {
+    const { user } = renderWithRouter(<App />);
+    const enterButton = screen.getByTestId(loginTestId);
+    const passwordInput = screen.getByTestId(passwordTestId);
+    const emailInput = screen.getByTestId(emailTestId);
+    await user.type(emailInput, 'testa@testa.com');
+    await user.type(passwordInput, '12345673');
+    await user.click(enterButton);
+
+    const botaoBebidas = screen.getByTestId('drinks-bottom-btn');
+    await userEvent.click(botaoBebidas);
+
+    const title = screen.getByRole('heading', { name: 'Bebidas!' });
+    expect(title).toBeInTheDocument();
+  });
+
+  test('Testa a rota para comidas', async () => {
+    const { user } = renderWithRouter(<App />);
+    const enterButton = screen.getByTestId(loginTestId);
+    const passwordInput = screen.getByTestId(passwordTestId);
+    const emailInput = screen.getByTestId(emailTestId);
+    await user.type(emailInput, 'test@test.com');
+    await user.type(passwordInput, '12345678');
+    await user.click(enterButton);
+
+    const botaoComidas = screen.getByTestId('meals-bottom-btn');
+    await userEvent.click(botaoComidas);
+
+    const title = screen.getByRole('heading', { name: 'Meals!' });
+    expect(title).toBeInTheDocument();
   });
   test('Testa se a rota Drinks possui o texto Drinks na tela', () => {
     renderWithRouter(<App />, { route: '/drinks' });

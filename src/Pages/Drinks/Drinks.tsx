@@ -1,9 +1,9 @@
-import React from 'react';
-
-export default function Drinks() {
+function Drinks() {
   return (
     <div>
-      <p>Drinks</p>
+      <h3>Bebidas!</h3>
     </div>
   );
 }
+
+export default Drinks;
