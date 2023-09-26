@@ -1,6 +1,5 @@
-import { screen, render, fireEvent } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { BrowserRouter, useLocation } from 'react-router-dom';
 import App from '../App';
 import renderWithRouter from '../renderWithRouter';
 import Footer from '../Components/Footer';
@@ -52,7 +51,7 @@ describe('Teste do AppReceitas', () => {
     await user.click(profileButton);
     expect(searchButton).not.toBeInTheDocument();
   });
-  /// //////////////////////////
+
   test('Testa se o footer tem botão de bebidas', () => {
     renderWithRouter(<Footer />);
 
@@ -61,7 +60,7 @@ describe('Teste do AppReceitas', () => {
   });
 
   test('Testa se o footer tem botão de comidas', async () => {
-    const { user } = renderWithRouter(<Footer />);
+    renderWithRouter(<Footer />);
 
     const botaoComidas = screen.getByTestId('meals-bottom-btn');
     expect(botaoComidas).toBeInTheDocument();
@@ -72,8 +71,8 @@ describe('Teste do AppReceitas', () => {
     const enterButton = screen.getByTestId(loginTestId);
     const passwordInput = screen.getByTestId(passwordTestId);
     const emailInput = screen.getByTestId(emailTestId);
-    await user.type(emailInput, 'teste@teste.com');
-    await user.type(passwordInput, '1234567');
+    await user.type(emailInput, 'testa@testa.com');
+    await user.type(passwordInput, '12345673');
     await user.click(enterButton);
 
     const botaoBebidas = screen.getByTestId('drinks-bottom-btn');
@@ -88,8 +87,8 @@ describe('Teste do AppReceitas', () => {
     const enterButton = screen.getByTestId(loginTestId);
     const passwordInput = screen.getByTestId(passwordTestId);
     const emailInput = screen.getByTestId(emailTestId);
-    await user.type(emailInput, 'teste@teste.com');
-    await user.type(passwordInput, '1234567');
+    await user.type(emailInput, 'test@test.com');
+    await user.type(passwordInput, '12345678');
     await user.click(enterButton);
 
     const botaoComidas = screen.getByTestId('meals-bottom-btn');

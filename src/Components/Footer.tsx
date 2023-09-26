@@ -1,6 +1,4 @@
-import { ReactHTMLElement } from 'react';
-import { useLocation, Link, useNavigate } from 'react-router-dom';
-import Drinks from '../Pages/Drinks';
+import { useNavigate } from 'react-router-dom';
 
 function Footer() {
   const navigate = useNavigate();
