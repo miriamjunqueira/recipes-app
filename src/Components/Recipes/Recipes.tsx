@@ -6,9 +6,10 @@ export default function Recipes() {
   const { foodInfos } = useContext(UserContext);
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  console.log(foodInfos);
 
   const recipesToDisplay = foodInfos.slice(0, 12);
-  console.log(recipesToDisplay);
+  // console.log(recipesToDisplay);
 
   if (pathname === '/meals' && foodInfos.length === 1) {
     navigate(`${pathname}/${foodInfos[0].idMeal}`);

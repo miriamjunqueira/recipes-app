@@ -2,16 +2,14 @@ import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import fetchRecipesApi from '../Services/API';
 import UserContext from '../Context/UserContext';
-import Recipes from './Recipes/Recipes';
 
 export default function SearchBar() {
   const [radioButton, setRadioButtons] = useState('Name');
   const [searchedWord, setSearchedWord] = useState('');
   const location = useLocation();
-  const { setFoodInfos, foodInfos } = useContext(UserContext);
+  const { setFoodInfos } = useContext(UserContext);
   const { pathname } = location;
   const urlForApi = pathname === '/meals' ? 'themealdb' : 'thecocktaildb';
-  console.log(foodInfos);
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRadioButtons(e.target.value);

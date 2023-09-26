@@ -11,6 +11,8 @@ const emailTest = 'teste@teste.com';
 const passwordTestId = 'password-input';
 const loginTestId = 'login-submit-btn';
 const filterButton = 'search-top-btn';
+const searchInputText = 'search-input';
+const searchButtonText = 'exec-search-btn';
 
 describe('Teste do AppReceitas', () => {
   test('Testa se os inputs e o botão estão na tela', () => {
@@ -100,13 +102,61 @@ describe('Teste do AppReceitas', () => {
     const { user } = renderWithRouter(<App />, { route: '/drinks' });
     const filterButtonToClick = screen.getByTestId(filterButton);
     await user.click(filterButtonToClick);
-    const searchInput = screen.getByTestId('search-input');
+    const searchInput = screen.getByTestId(searchInputText);
     await user.type(searchInput, 'chicken');
-    const searchButton = screen.getByTestId('exec-search-btn');
+    const searchButton = screen.getByTestId(searchButtonText);
     await user.click(searchButton);
     waitFor(() => {
       vi.spyOn(APIModules, 'default');
       expect(APIModules).toHaveBeenCalled();
+    });
+  });
+  test('Testa se a pesquisa usa os parâmetros corretos', async () => {
+    const { user } = renderWithRouter(<App />, { route: '/drinks' });
+    const filterButtonToClick = screen.getByTestId(filterButton);
+    await user.click(filterButtonToClick);
+    const searchInput = screen.getByTestId(searchInputText);
+    await user.type(searchInput, 'a');
+    const firstLetterButton = screen.getByTestId('first-letter-search-radio');
+    await user.click(firstLetterButton);
+    const searchButton = screen.getByTestId(searchButtonText);
+    await user.click(searchButton);
+    waitFor(() => {
+      vi.spyOn(APIModules, 'default');
+      const drinksCard = screen.getByTestId('0-recipe-card');
+      expect(drinksCard).toBeInTheDocument();
+    });
+  });
+  test('Testa se a pesquisa por primeira letra ao digita mais de uma vez aparece erro', async () => {
+    const { user } = renderWithRouter(<App />, { route: '/drinks' });
+    const filterButtonToClick = screen.getByTestId(filterButton);
+    await user.click(filterButtonToClick);
+    const searchInput = screen.getByTestId(searchInputText);
+    await user.type(searchInput, 'aa');
+    const ingredientButton = screen.getByTestId('first-letter-search-radio');
+    await user.click(ingredientButton);
+    const searchButton = screen.getByTestId(searchButtonText);
+    await user.click(searchButton);
+    waitFor(() => {
+      vi.spyOn(APIModules, 'default');
+      const alert = vi.spyOn(window, 'alert');
+      expect(alert).toHaveBeenCalledWith('Your search must have only 1 (one) character');
+    });
+  });
+  test('Testa se a pesquisa por nome retorna corretamente', async () => {
+    const { user } = renderWithRouter(<App />, { route: '/drinks' });
+    const filterButtonToClick = screen.getByTestId(filterButton);
+    await user.click(filterButtonToClick);
+    const searchInput = screen.getByTestId(searchInputText);
+    await user.type(searchInput, 'coffee');
+    const nameButton = screen.getByTestId('ingredient-search-radio');
+    await user.click(nameButton);
+    expect(nameButton).toBeChecked();
+    const searchButton = screen.getByTestId(searchButtonText);
+    await user.click(searchButton);
+    waitFor(() => {
+      vi.spyOn(APIModules, 'default');
+      expect(APIModules).not.toHaveBeenCalledWith('thecocktaildb', 'search.php?s', 'coffee');
     });
   });
 });
