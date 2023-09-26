@@ -7,13 +7,14 @@ import Login from './Pages/Login/Login';
 import Meals from './Pages/Meals/Meals';
 import Layout from './Components/Layout';
 import Profile from './Pages/Profile/Profile';
+import Drinks from './Pages/Drinks';
 
 function App() {
   return (
     <Routes>
       <Route element={ <Layout /> }>
         <Route path="/meals" element={ <Meals /> } />
-        <Route path="/drinks" element={ <Meals /> } />
+        <Route path="/drinks" element={ <Drinks /> } />
         <Route path="/profile" element={ <Profile /> } />
         <Route path="/done-recipes" element={ <Meals /> } />
         <Route path="/favorite-recipes" element={ <Meals /> } />
