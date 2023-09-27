@@ -100,19 +100,20 @@ describe('Teste do AppReceitas', () => {
     const drinksText = screen.getByTestId('page-title');
     expect(drinksText).toBeInTheDocument();
   });
-  test('Testa se a requisição da API é feita', async () => {
-    const { user } = renderWithRouter(<App />, { route: '/drinks' });
-    const filterButtonToClick = screen.getByTestId(filterButton);
-    await user.click(filterButtonToClick);
-    const searchInput = screen.getByTestId(searchInputText);
-    await user.type(searchInput, 'chicken');
-    const searchButton = screen.getByTestId(searchButtonText);
-    await user.click(searchButton);
-    waitFor(() => {
-      vi.spyOn(APIModules, 'default');
-      expect(APIModules).toHaveBeenCalled();
-    });
-  });
+  // Teste ficou desnecessário, pois testamos a API mais a frente.
+  // test('Testa se a requisição da API é feita', async () => {
+  //   const { user } = renderWithRouter(<App />, { route: '/drinks' });
+  //   const filterButtonToClick = screen.getByTestId(filterButton);
+  //   await user.click(filterButtonToClick);
+  //   const searchInput = screen.getByTestId(searchInputText);
+  //   await user.type(searchInput, 'chicken');
+  //   const searchButton = screen.getByTestId(searchButtonText);
+  //   await user.click(searchButton);
+  //   // waitFor(() => {
+  //   //   vi.spyOn(APIModules, 'default');
+  //   //   expect(APIModules).toHaveBeenCalled();
+  //   // });
+  // });
   test('Testa se a pesquisa usa os parâmetros corretos', async () => {
     const { user } = renderWithRouter(<App />, { route: '/drinks' });
     const filterButtonToClick = screen.getByTestId(filterButton);
