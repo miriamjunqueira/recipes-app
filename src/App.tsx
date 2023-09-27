@@ -8,6 +8,7 @@ import Meals from './Pages/Meals/Meals';
 import Layout from './Components/Layout';
 import Profile from './Pages/Profile/Profile';
 import Drinks from './Pages/Drinks/Drinks';
+import RecipeDetails from './Pages/RecipeDetails/RecipeDetails';
 
 function App() {
   return (
@@ -21,8 +22,8 @@ function App() {
       </Route>
 
       <Route path="/" element={ <Login /> } />
-      <Route path="/meals/:id-da-receita" element={ <Meals /> } />
-      <Route path="/drinks/:id-da-receita" element={ <Meals /> } />
+      <Route path="/meals/:id" element={ <RecipeDetails /> } />
+      <Route path="/drinks/:id" element={ <RecipeDetails /> } />
       <Route path="/meals/:id-da-receita/in-progress" element={ <Meals /> } />
       <Route path="/drinks/:id-da-receita/in-progress" element={ <Meals /> } />
     </Routes>
