@@ -28,7 +28,7 @@ export default function Recipes() {
               data-testid={ `${index}-card-img` }
               src={ recipe.strMealThumb }
               alt={ `foto sobre ${recipe.strMeal}` }
-              width={ 100 }
+              width={ 80 }
             />
           </div>
         ))}
@@ -40,7 +40,7 @@ export default function Recipes() {
               data-testid={ `${index}-card-img` }
               src={ recipe.strDrinkThumb }
               alt={ `foto sobre ${recipe.strDrink}` }
-              width={ 100 }
+              width={ 80 }
             />
           </div>
         ))}
