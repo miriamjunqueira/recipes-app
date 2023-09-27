@@ -35,8 +35,10 @@ export type DrinksType = {
 };
 
 type UserContextType = {
-  setFoodInfos: (recipes: MealsType[] | DrinksType[]) => void
-  foodInfos: MealsType[] | DrinksType[]
+  setFoodInfos: (recipes: MealsType[]) => void
+  foodInfos: MealsType[]
+  setDrinksInfos: (recipes: DrinksType[]) => void
+  drinksInfos: DrinksType[]
 };
 
 const UserContext = createContext({} as UserContextType);
