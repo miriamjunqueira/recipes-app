@@ -13,6 +13,8 @@ const loginTestId = 'login-submit-btn';
 const filterButton = 'search-top-btn';
 const searchInputText = 'search-input';
 const searchButtonText = 'exec-search-btn';
+const firstCardText = '0-recipe-card';
+const firstLetterButtonText = 'first-letter-search-radio';
 
 describe('Teste do AppReceitas', () => {
   test('Testa se os inputs e o botão estão na tela', () => {
@@ -117,13 +119,13 @@ describe('Teste do AppReceitas', () => {
     await user.click(filterButtonToClick);
     const searchInput = screen.getByTestId(searchInputText);
     await user.type(searchInput, 'a');
-    const firstLetterButton = screen.getByTestId('first-letter-search-radio');
+    const firstLetterButton = screen.getByTestId(firstLetterButtonText);
     await user.click(firstLetterButton);
     const searchButton = screen.getByTestId(searchButtonText);
     await user.click(searchButton);
     waitFor(() => {
       vi.spyOn(APIModules, 'default');
-      const drinksCard = screen.getByTestId('0-recipe-card');
+      const drinksCard = screen.getByTestId('firstCard');
       expect(drinksCard).toBeInTheDocument();
     });
   });
@@ -133,13 +135,13 @@ describe('Teste do AppReceitas', () => {
     await user.click(filterButtonToClick);
     const searchInput = screen.getByTestId(searchInputText);
     await user.type(searchInput, 'aa');
-    const ingredientButton = screen.getByTestId('first-letter-search-radio');
+    const ingredientButton = screen.getByTestId(firstLetterButtonText);
     await user.click(ingredientButton);
     const searchButton = screen.getByTestId(searchButtonText);
     await user.click(searchButton);
     waitFor(() => {
       vi.spyOn(APIModules, 'default');
-      const alert = vi.spyOn(window, 'alert');
+      const alert = vi.spyOn(global, 'alert');
       expect(alert).toHaveBeenCalledWith('Your search must have only 1 (one) character');
     });
   });
@@ -157,6 +159,62 @@ describe('Teste do AppReceitas', () => {
     waitFor(() => {
       vi.spyOn(APIModules, 'default');
       expect(APIModules).not.toHaveBeenCalledWith('thecocktaildb', 'search.php?s', 'coffee');
+      const firstcard = screen.getByTestId(firstCardText);
+      expect(firstcard).toBeInTheDocument();
+    });
+  });
+  test('Testa se a pesquisa por Ingredient retorna corretamente', async () => {
+    const { user } = renderWithRouter(<App />, { route: '/drinks' });
+    const filterButtonToClick = screen.getByTestId(filterButton);
+    await user.click(filterButtonToClick);
+    const searchInput = screen.getByTestId(searchInputText);
+    await user.type(searchInput, 'coffee');
+    const ingredientButton = screen.getByTestId('ingredient-search-radio');
+    await user.click(ingredientButton);
+    expect(ingredientButton).toBeChecked();
+    const searchButton = screen.getByTestId(searchButtonText);
+    await user.click(searchButton);
+    waitFor(() => {
+      vi.spyOn(APIModules, 'default');
+      expect(APIModules).toHaveBeenCalledWith('thecocktaildb', 'filter.php?i', 'coffee');
+      const firstCard = screen.getByTestId('1-recipe-card');
+      expect(firstCard).toBeInTheDocument();
+    });
+  });
+  test('Testa se a pesquisa por First Letter retorna corretamente', async () => {
+    const { user } = renderWithRouter(<App />, { route: '/drinks' });
+    const filterButtonToClick = screen.getByTestId(filterButton);
+    await user.click(filterButtonToClick);
+    const searchInput = screen.getByTestId(searchInputText);
+    await user.type(searchInput, 'a');
+    const firstLetterButton = screen.getByTestId(firstLetterButtonText);
+    await user.click(firstLetterButton);
+    expect(firstLetterButton).toBeChecked();
+    const searchButton = screen.getByTestId(searchButtonText);
+    await user.click(searchButton);
+    waitFor(() => {
+      vi.spyOn(APIModules, 'default');
+      expect(APIModules).toHaveBeenCalledWith('thecocktaildb', 'search.php?f', 'a');
+      const firstCard = screen.getByTestId('3-recipe-card');
+      expect(firstCard).toHaveTextContent('Ace');
+    });
+  });
+  test('Testa se a pesquisa por First Letter retorna corretamente', async () => {
+    const { user } = renderWithRouter(<App />, { route: '/meals' });
+    const filterButtonToClick = screen.getByTestId(filterButton);
+    await user.click(filterButtonToClick);
+    const searchInput = screen.getByTestId(searchInputText);
+    await user.type(searchInput, 'a');
+    const firstLetterButton = screen.getByTestId(firstLetterButtonText);
+    await user.click(firstLetterButton);
+    expect(firstLetterButton).toBeChecked();
+    const searchButton = screen.getByTestId(searchButtonText);
+    await user.click(searchButton);
+    waitFor(() => {
+      vi.spyOn(APIModules, 'default');
+      expect(APIModules).toHaveBeenCalledWith('themealdb', 'search.php?f', 'a');
+      const firstCard = screen.getByTestId('5-recipe-card');
+      expect(firstCard).toBeInTheDocument();
     });
   });
 });
