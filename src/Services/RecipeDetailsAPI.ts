@@ -1,6 +1,6 @@
 export default async function fetchRecipesDetailsApi(
-  recipeId: string,
   path: string,
+  recipeId?: string,
 ) {
   const API_URL = `https://www.${path}.com/api/json/v1/1/lookup.php?i=${recipeId}`;
   const response = await fetch(API_URL);

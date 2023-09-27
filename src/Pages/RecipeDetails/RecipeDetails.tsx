@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-// import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import fetchRecipesDetailsApi from '../../Services/RecipeDetailsAPI';
-import { MealsType } from '../../Context/UserContext';
+import { DrinksType, MealsType } from '../../Context/UserContext';
 import Loading from '../../Components/Loading';
 
-// const { pathname } = useLocation();
 // const path = pathname === 'meals' ? 'themealdb' : 'thecokctaildb';
 // const param = useParams();
 // const recipeId = param; // Recuperar o id-da-receita do useparam
@@ -16,47 +15,34 @@ import Loading from '../../Components/Loading';
 // https://www.themealdb.com/api/json/v1/1/lookup.php?i=52772 link para testar API
 
 export default function RecipeDetails() {
-  const [loading, setLoading] = useState(true);
-  const [recipeDetail, setRecipeDetail] = useState<MealsType>();
+  // const [loading, setLoading] = useState(true);
+  const [mealRecipeDetail, setMealRecipeDetail] = useState<MealsType[]>([]);
+  const [drinkRecipeDetail, setDrinkRecipeDetail] = useState<DrinksType[]>([]);
+  const { pathname } = useLocation();
+  const { id } = useParams();
+  console.log(pathname.includes('meals'));
+  console.log(id);
+  const path = pathname.includes('meals') ? 'themealdb' : 'thecocktaildb';
 
   useEffect(() => {
     const getAPIData = async () => {
-      const getRecipeDetails = await fetchRecipesDetailsApi('52772', 'themealdb');
-      setRecipeDetail(getRecipeDetails.meals[0]);
-      setLoading(false);
+      const getRecipeDetails = await fetchRecipesDetailsApi(path, id);
+      if (pathname.includes('meals')) {
+        setMealRecipeDetail(getRecipeDetails.meals);
+      } else {
+        setDrinkRecipeDetail(getRecipeDetails.drinks);
+      }
+      // setLoading(false);
     };
-    setTimeout(() => getAPIData(), 2000);
-  }, []);
+    getAPIData();
+  }, [id, path, pathname]);
 
-  // const { strMealThumb, strMeal, strCategory } = recipeDetail as MealsType;
-  const ingredients = recipeDetail
-  && Object.entries(recipeDetail).filter((ingredient) => (
-    ingredient[0].startsWith('strIngredient')));
-  console.log(ingredients);
-
-  const measures = recipeDetail
-  && Object.entries(recipeDetail).filter((measure) => (
-    measure[0].startsWith('strMeasure')));
-  console.log(measures);
+  console.log(mealRecipeDetail);
+  console.log(drinkRecipeDetail);
 
   return (
     <div>
-      {loading ? <Loading /> : (
-        <>
-          <div>
-            <h2>{recipeDetail.strMeal}</h2>
-            <h3>{recipeDetail.strCategory}</h3>
-            <img src={ recipeDetail.strMealThumb } alt="" width={ 80 } />
-          </div>
-          {ingredients?.map((ing, index) => (
-            <div key={ index }>
-              <span>{`${ing[1]}`}</span>
-              <span>{` ${measures[index][1]}`}</span>
-            </div>
-          ))}
-          <div />
-        </>
-      )}
+      Teste
     </div>
   );
 }
