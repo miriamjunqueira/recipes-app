@@ -24,3 +24,13 @@ export default async function fetchRecipesApi(
     return data.drinks;
   }
 }
+
+export async function getAllFoods() {
+  const foods = fetchRecipesApi('themealdb', 'search.php?s', '', '/meals');
+  return foods;
+}
+
+export async function getAllDrinks() {
+  const drinks = fetchRecipesApi('thecocktaildb', 'search.php?s', '', '/drinks');
+  return drinks;
+}

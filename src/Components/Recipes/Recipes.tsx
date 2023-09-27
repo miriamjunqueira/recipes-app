@@ -1,20 +1,23 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import UserContext, { DrinksType, MealsType } from '../../Context/UserContext';
 
 export default function Recipes() {
-  const { foodInfos } = useContext(UserContext);
+  const { foodInfos, drinksInfos } = useContext(UserContext);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  console.log(foodInfos);
 
-  const recipesToDisplay = foodInfos.slice(0, 12);
-  // console.log(recipesToDisplay);
+  let recipesToDisplay: MealsType[] | DrinksType[] = [];
+  if (pathname === '/meals') {
+    recipesToDisplay = foodInfos.slice(0, 12);
+  } else if (pathname === '/drinks') {
+    recipesToDisplay = drinksInfos.slice(0, 12);
+  }
 
   if (pathname === '/meals' && foodInfos.length === 1) {
     navigate(`${pathname}/${foodInfos[0].idMeal}`);
   }
-  if (pathname === '/drinks' && foodInfos.length === 1) {
+  if (pathname === '/drinks' && drinksInfos.length === 1) {
     navigate(`${pathname}/${foodInfos[0].idDrink}`);
   }
   if (foodInfos.length !== null) {
