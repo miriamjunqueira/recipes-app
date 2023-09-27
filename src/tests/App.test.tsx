@@ -13,7 +13,7 @@ const loginTestId = 'login-submit-btn';
 const filterButton = 'search-top-btn';
 const searchInputText = 'search-input';
 const searchButtonText = 'exec-search-btn';
-const firstCardText = '0-recipe-card';
+// const firstCardText = '0-recipe-card';
 const firstLetterButtonText = 'first-letter-search-radio';
 
 describe('Teste do AppReceitas', () => {
