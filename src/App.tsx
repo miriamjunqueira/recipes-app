@@ -7,6 +7,7 @@ import Login from './Pages/Login/Login';
 import Layout from './Components/Layout';
 import Profile from './Pages/Profile/Profile';
 import Recipes from './Components/Recipes/Recipes';
+import RecipeDetails from './Pages/RecipeDetails/RecipeDetails';
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
       <Route path="/drinks/:id-da-receita" element={ <Recipes /> } />
       <Route path="/meals/:id-da-receita/in-progress" element={ <Recipes /> } />
       <Route path="/drinks/:id-da-receita/in-progress" element={ <Recipes /> } />
+      <Route path="/meals/:id" element={ <RecipeDetails /> } />
+      <Route path="/drinks/:id" element={ <RecipeDetails /> } />
     </Routes>
   );
 }
