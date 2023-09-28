@@ -1,10 +1,10 @@
 import { screen, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
-import userEvent from '@testing-library/user-event';
+// import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from '../renderWithRouter';
 import * as APIModules from '../Services/API';
-import Footer from '../Components/Footer';
+// import Footer from '../Components/Footer';
 
 const emailTestId = 'email-input';
 const emailTest = 'teste@teste.com';

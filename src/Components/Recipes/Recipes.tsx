@@ -21,6 +21,7 @@ export default function Recipes() {
   if (pathname === '/drinks' && drinksInfos.length === 1) {
     navigate(`${pathname}/${foodInfos[0].idDrink}`);
   }
+  console.log(drinksInfos);
   if (foodInfos.length !== null) {
     return (
       <div>
