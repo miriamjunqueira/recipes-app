@@ -34,7 +34,7 @@ function Categories() {
             key={ index }
           >
             <button
-              id="category-btn"
+              className="category-btn"
               data-testid={ `${categoria}-category-filter` }
             >
               {categoria}
