@@ -54,6 +54,7 @@ describe('Testa o rodapé', () => {
     const title = screen.getByRole('heading', { name: 'Meals' });
     expect(title).toBeInTheDocument();
   });
+
   test('Testa se a rota Drinks possui o texto Drinks na tela', () => {
     renderWithRouter(<App />, { route: '/drinks' });
     const drinksText = screen.getByTestId('page-title');
