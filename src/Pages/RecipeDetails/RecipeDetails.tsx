@@ -4,18 +4,7 @@ import fetchRecipesDetailsApi from '../../Services/RecipeDetailsAPI';
 import { DrinksType, MealsType } from '../../Context/UserContext';
 import Loading from '../../Components/Loading';
 
-// const path = pathname === 'meals' ? 'themealdb' : 'thecokctaildb';
-// const param = useParams();
-// const recipeId = param; // Recuperar o id-da-receita do useparam
-// const { strMealThumb, strMeal, strCategory } = recipeDetail as MealsType;
-// const ingredient = Object.entries(recipeDetail).filter((ingredients) => {
-//   ingredients.startsWith('strIngredient');
-// });
-// console.log(Object.entries(recipeDetail))
-// https://www.themealdb.com/api/json/v1/1/lookup.php?i=52772 link para testar API
-
 export default function RecipeDetails() {
-  // const [loading, setLoading] = useState(true);
   const [mealRecipeDetail, setMealRecipeDetail] = useState<MealsType[]>([]);
   const [drinkRecipeDetail, setDrinkRecipeDetail] = useState<DrinksType[]>([]);
   const { pathname } = useLocation();
@@ -32,43 +21,36 @@ export default function RecipeDetails() {
       if (pathname.includes('drinks')) {
         setDrinkRecipeDetail(getRecipeDetails.drinks);
       }
-      // setLoading(false);
     };
     getAPIData();
   }, [id, path, pathname]);
 
-  const mealRecipeIngredients = mealRecipeDetail.length > 0 && mealRecipeDetail !== null
+  // Aqui eu separo os valores do objeto como [string, string]
+  const mealRecipeValues = mealRecipeDetail.length > 0 && mealRecipeDetail !== null
     ? Object.entries(mealRecipeDetail[0])
     : [];
-  const allMealIngredients = mealRecipeIngredients.filter((ing) => ing[0]
+
+  // Aqui separo o que são os ingredientes
+  const mealIngredients = mealRecipeValues.filter((ing) => ing[0]
     .startsWith(('strIngredient')) && ing[1] !== null
       && ing[1] !== '').map((ingName) => ingName[1]);
-  console.log(allMealIngredients);
-
-  const mealRecipeMeasures = mealRecipeDetail.length > 0 && mealRecipeDetail !== null
-    ? Object.entries(mealRecipeDetail[0])
-    : [];
-  const allMealMeasures = mealRecipeMeasures.filter((measure) => measure[0]
+  // Aqui separo o que são as medidas
+  const mealMeasures = mealRecipeValues.filter((measure) => measure[0]
     .startsWith(('strMeasure')) && measure[1] !== null
       && measure[1] !== '').map((measureName) => measureName[1]);
-  console.log(allMealMeasures);
-
-  const drinkRecipeIngredients = drinkRecipeDetail.length > 0
+  // Aqui eu separo os valores do objeto como [string, string]
+  const drinkRecipeValues = drinkRecipeDetail.length > 0
   && drinkRecipeDetail !== null
     ? Object.entries(drinkRecipeDetail[0])
     : [];
-  const allDrinkIngredients = drinkRecipeIngredients.filter((ing) => ing[0]
+  // Aqui separo o que são os ingredientes
+  const drinkIngredients = drinkRecipeValues.filter((ing) => ing[0]
     .startsWith(('strIngredient')) && ing[1] !== null
       && ing[1] !== '').map((ingName) => ingName[1]);
-  const drinkRecipeMeasures = drinkRecipeDetail.length > 0 && drinkRecipeDetail !== null
-    ? Object.entries(drinkRecipeDetail[0])
-    : [];
-  const allDrinkMeasures = drinkRecipeMeasures.filter((measure) => measure[0]
+  // Aqui separo o que são as medidas
+  const drinkMeasures = drinkRecipeValues.filter((measure) => measure[0]
     .startsWith(('strMeasure')) && measure[1] !== null
       && measure[1] !== '').map((measureName) => measureName[1]);
-  console.log(drinkRecipeDetail);
-  console.log(mealRecipeDetail);
-  // console.log(mealRecipeDetail[0].strYoutube);
 
   return (
     <div>
@@ -84,12 +66,12 @@ export default function RecipeDetails() {
             data-testid="recipe-photo"
           />
           <div>
-            {allMealIngredients.map((ingValue, index) => (
+            {mealIngredients.map((ingValue, index) => (
               <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
                 {ingValue}
                 {' '}
                 {' '}
-                {allMealMeasures[index]}
+                {mealMeasures[index]}
                 {' '}
               </div>
             ))}
@@ -126,12 +108,12 @@ export default function RecipeDetails() {
             data-testid="recipe-photo"
           />
           <div>
-            {allDrinkIngredients.map((ingValue, index) => (
+            {drinkIngredients.map((ingValue, index) => (
               <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
                 {ingValue}
                 {' '}
                 {' '}
-                {allDrinkMeasures[index]}
+                {drinkMeasures[index]}
                 {' '}
               </div>
             ))}
