@@ -1,6 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import UserContext, { DrinksType, MealsType } from '../../Context/UserContext';
 import { getFoodsCategories, getDrinksCategories } from '../Services/API';
 
 function Categories() {

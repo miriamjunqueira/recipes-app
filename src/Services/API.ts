@@ -35,26 +35,6 @@ export async function getAllDrinks() {
   return drinks;
 }
 
-// export async function getFoodsCategories() {
-//   const foodsCategories = fetchRecipesApi(
-//     'themealdb',
-//     'list.php?c',
-//     'list',
-//     '/meals',
-//   );
-//   return foodsCategories;
-// }
-
-// export async function getDrinksCategories() {
-//   const drinksCategories = fetchRecipesApi(
-//     'thecocktaildb',
-//     'list.php?c',
-//     'list',
-//     '/drinks',
-//   );
-//   return drinksCategories;
-// }
-
 export async function getFoodsCategories() {
   const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
   const data = await response.json();

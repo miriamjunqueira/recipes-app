@@ -48,9 +48,9 @@ function Header() {
       {showSearch && (
         <SearchBar />
       )}
-      <p data-testid="page-title">
+      <h6 data-testid="page-title">
         {pageTitle}
-      </p>
+      </h6>
     </header>
   );
 }
