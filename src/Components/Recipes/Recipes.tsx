@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import UserContext, { DrinksType, MealsType } from '../../Context/UserContext';
+import Categories from '../Categories';
 
 export default function Recipes() {
   const { foodInfos, drinksInfos } = useContext(UserContext);
@@ -24,6 +25,8 @@ export default function Recipes() {
     return (
       <div>
         {pathname === '/meals'
+              && (<Categories />)}
+        {pathname === '/meals'
         && (recipesToDisplay as MealsType[]).map((recipe, index) => (
           <div data-testid={ `${index}-recipe-card` } key={ recipe.idMeal }>
             <h3 data-testid={ `${index}-card-name` }>{recipe.strMeal}</h3>
@@ -35,6 +38,8 @@ export default function Recipes() {
             />
           </div>
         ))}
+        {pathname === '/drinks'
+              && (<Categories />)}
         {pathname === '/drinks'
         && (recipesToDisplay as DrinksType[]).map((recipe, index) => (
           <div data-testid={ `${index}-recipe-card` } key={ recipe.idDrink }>

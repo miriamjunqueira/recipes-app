@@ -1,3 +1,11 @@
+header {
+  background-color: bisque;
+}
+
+main {
+  background-color: #d6b48d;
+}
+
 .meals {
   align-items: center;
   background: #0fa36b;
@@ -71,5 +79,24 @@ footer {
   bottom: 0;
   position: fixed;
   width: 100%;
+}
+
+#category-btn {
+  background-color: #de9312;
+  border: none;
+  color: #fff;
+  padding: 10px 22px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.5s ease;
+}
+
+#category-btn:hover{
+  background-color: #8c4d0a;
 }
 

@@ -34,3 +34,28 @@ export async function getAllDrinks() {
   const drinks = fetchRecipesApi('thecocktaildb', 'search.php?s', '', '/drinks');
   return drinks;
 }
+
+export async function getFoodsCategories() {
+  const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+  const data = await response.json();
+
+  const chaves = (data.meals).map((comida: any) => {
+    return comida.strCategory;
+  });
+
+  const primeiras5 = chaves.slice(0, 5);
+
+  return primeiras5;
+}
+
+export async function getDrinksCategories() {
+  const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
+  const data = await response.json();
+
+  const chaves = (data.drinks).map((bebida: any) => {
+    return bebida.strCategory;
+  });
+  const primeiras5 = chaves.slice(0, 5);
+
+  return primeiras5;
+}
