@@ -69,5 +69,9 @@ export async function ReceitasPorCategoria(
   const response = await fetch(API_URL);
   const data = await response.json();
   const result = await data;
-  return result;
+  const resultado = result.meals;
+
+  const primeiras12 = resultado.slice(0, 12);
+
+  return primeiras12;
 }

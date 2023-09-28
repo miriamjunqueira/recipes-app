@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { an } from 'vitest/dist/types-e3c9754d';
 import UserContext, { DrinksType, MealsType } from '../../Context/UserContext';
 import { getFoodsCategories,
   getDrinksCategories,
@@ -10,14 +11,15 @@ export default function Recipes() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
-  // Categories:
   const [foodCategories, setFoodCategories] = useState<string[]>([]);
   const [drinkCategories, setDrinkCategories] = useState<string[]>([]);
-  const [listaPorCategoria, setListaPorCategoria] = useState
-  <MealsType[] | DrinksType[]>([]);
+  const [recipesToDisplay, setRecipesToDisplay] = useState<MealsType[] |
+  DrinksType[]>([]);
   let categoriasExibicao: string[] = ([]);
+  const [exibicaoPadrao, setExibicaoPadrao] = useState<MealsType[] | DrinksType[]>([]);
 
   useEffect(() => {
+    // Categories:
     async function buscaCategorias() {
       const foodsCat = await getFoodsCategories();
       setFoodCategories(foodsCat);
@@ -26,20 +28,21 @@ export default function Recipes() {
       setDrinkCategories(drinksCat);
     }
     buscaCategorias();
-  }, []);
+
+    // Renderização inicial:
+    if (pathname === '/meals') {
+      setRecipesToDisplay(foodInfos.slice(0, 12));
+      setExibicaoPadrao(foodInfos.slice(0, 12));
+    } else if (pathname === '/drinks') {
+      setRecipesToDisplay(drinksInfos.slice(0, 12));
+      setExibicaoPadrao(foodInfos.slice(0, 12));
+    }
+  }, [foodInfos, drinksInfos, pathname]);
 
   if (pathname === '/meals') {
     categoriasExibicao = foodCategories;
   } else if (pathname === '/drinks') {
     categoriasExibicao = drinkCategories;
-  }
-
-  // Renderização inicial:
-  let recipesToDisplay: MealsType[] | DrinksType[] = [];
-  if (pathname === '/meals') {
-    recipesToDisplay = foodInfos.slice(0, 12);
-  } else if (pathname === '/drinks') {
-    recipesToDisplay = drinksInfos.slice(0, 12);
   }
 
   // Retorno de um único elemento:
@@ -53,18 +56,16 @@ export default function Recipes() {
   async function handleClick(event: any) {
     event.preventDefault();
     const categoria = event.target.id;
-
-    console.log('handleclick!');
-
     const retorno = await ReceitasPorCategoria(
       'themealdb',
       'filter.php?c',
       `${categoria}`,
     );
-    setListaPorCategoria(retorno);
+    setRecipesToDisplay(retorno);
+  }
 
-    console.log('lista por categoria após handleclick:');
-    console.log(listaPorCategoria);
+  function handleDeleteFilters() {
+    setRecipesToDisplay(exibicaoPadrao);
   }
 
   if (recipesToDisplay.length !== null) {
@@ -88,9 +89,16 @@ export default function Recipes() {
               </span>
             );
           })}
+          <button
+            data-testid="All-category-filter"
+            className="category-btn"
+            onClick={ handleDeleteFilters }
+          >
+            All
+          </button>
         </div>
 
-        {(pathname === '/meals' && listaPorCategoria.length <= 0) ?
+        {pathname === '/meals'
         && (recipesToDisplay as MealsType[]).map((recipe, index) => (
           <div data-testid={ `${index}-recipe-card` } key={ recipe.idMeal }>
             <h3 data-testid={ `${index}-card-name` }>{recipe.strMeal}</h3>
