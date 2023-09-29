@@ -17,6 +17,7 @@ export default function Recipes() {
   DrinksType[]>([]);
   let categoriasExibicao: string[] = ([]);
   const [exibicaoPadrao, setExibicaoPadrao] = useState<MealsType[] | DrinksType[]>([]);
+  const [clicked, setclicked] = useState(false);
 
   useEffect(() => {
     // Categories:
@@ -55,6 +56,7 @@ export default function Recipes() {
 
   async function handleClick(event: any) {
     event.preventDefault();
+
     const categoria = event.target.id;
 
     let retorno: MealsType[] | DrinksType[] = [];
@@ -73,7 +75,13 @@ export default function Recipes() {
         'drinks',
       );
     }
-    setRecipesToDisplay(retorno);
+    if (clicked === false) {
+      setRecipesToDisplay(retorno);
+      setclicked(true);
+    } else if (clicked === true) {
+      setRecipesToDisplay(exibicaoPadrao);
+      setclicked(false);
+    }
   }
 
   function handleDeleteFilters() {
