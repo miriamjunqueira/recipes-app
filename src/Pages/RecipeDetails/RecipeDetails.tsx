@@ -9,6 +9,8 @@ import RecommendationCard from '../../Components/RecomendationCard/Recomendation
 export default function RecipeDetails() {
   const [mealRecipeDetail, setMealRecipeDetail] = useState<MealsType[]>([]);
   const [drinkRecipeDetail, setDrinkRecipeDetail] = useState<DrinksType[]>([]);
+  const [buttonName, setButtonName] = useState('Start Recipe');
+  const [showStartButton, setShowStartButton] = useState(false);
   const { pathname } = useLocation();
   const { id } = useParams();
   const witchPath = pathname.includes('meals');
@@ -53,6 +55,14 @@ export default function RecipeDetails() {
   const drinkMeasures = drinkRecipeValues.filter((measure) => measure[0]
     .startsWith(('strMeasure')) && measure[1] !== null
       && measure[1] !== '').map((measureName) => measureName[1]);
+
+  const getLocalStorageInfo = JSON.parse(localStorage.getItem('doneRecipes') || '[]');
+  console.log(getLocalStorageInfo);
+  // Tipo é any até implementar a tipagem do LocalStorage
+  const isRecipeDone = getLocalStorageInfo
+    .some((recipe: any) => recipe.id === mealRecipeDetail[0].idMeal
+  || recipe.id === drinkRecipeDetail[0].idDrink);
+  console.log(isRecipeDone);
 
   return (
     <div>
@@ -127,13 +137,24 @@ export default function RecipeDetails() {
       <div>
         <RecommendationCard />
       </div>
-      <button
-        className="start-button"
-        data-testid="start-recipe-btn"
-      >
-        Start Recipe
-
-      </button>
+      <div>
+        {drinkRecipeDetail.length !== 0 && !isRecipeDone && (
+          <button
+            className="start-button"
+            data-testid="start-recipe-btn"
+          >
+            {buttonName}
+          </button>
+        )}
+        {mealRecipeDetail.length !== 0 && !isRecipeDone && (
+          <button
+            className="start-button"
+            data-testid="start-recipe-btn"
+          >
+            {buttonName}
+          </button>
+        )}
+      </div>
     </div>
   );
 }
