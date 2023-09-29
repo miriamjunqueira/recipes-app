@@ -3,6 +3,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import fetchRecipesDetailsApi from '../../Services/RecipeDetailsAPI';
 import { DrinksType, MealsType } from '../../Context/UserContext';
 import Loading from '../../Components/Loading';
+import './RecipeDetails.css';
 import RecommendationCard from '../../Components/RecomendationCard/RecomendationCard';
 
 export default function RecipeDetails() {
@@ -126,6 +127,13 @@ export default function RecipeDetails() {
       <div>
         <RecommendationCard />
       </div>
+      <button
+        className="start-button"
+        data-testid="start-recipe-btn"
+      >
+        Start Recipe
+
+      </button>
     </div>
   );
 }
