@@ -5,6 +5,7 @@ import { DrinksType, MealsType, MixedType } from '../../Context/UserContext';
 import Loading from '../../Components/Loading';
 import './RecipeDetails.css';
 import RecommendationCard from '../../Components/RecomendationCard/RecomendationCard';
+import DetailsButton from './DetailsButton';
 
 export default function RecipeDetails() {
   const [loading, setLoading] = useState(true);
@@ -14,7 +15,6 @@ export default function RecipeDetails() {
   const { pathname } = useLocation();
   const { id } = useParams();
   const witchPath = pathname.includes('meals');
-
   const path = witchPath ? 'themealdb' : 'thecocktaildb';
 
   useEffect(() => {
@@ -23,21 +23,17 @@ export default function RecipeDetails() {
         drinks: DrinksType[] } = await fetchRecipesDetailsApi(path, id);
       if (pathname.includes('meals')) {
         setRecipeDetail(getRecipeDetails.meals);
-        getIngredients(recipeDetail);
-        getMeasures(recipeDetail);
+        getIngredients(getRecipeDetails.meals);
         setLoading(false);
       }
       if (pathname.includes('drinks')) {
         setRecipeDetail(getRecipeDetails.drinks);
-        getMeasures(recipeDetail);
-        getIngredients(recipeDetail);
+        getIngredients(getRecipeDetails.drinks);
         setLoading(false);
       }
     };
     getAPIData();
-  }, [id, path, pathname, recipeDetail]);
-
-  // Tipagem com any apenas para testar
+  }, [id, path, pathname]);
   const getIngredients = (recipeDetails: MixedType[]) => {
     const recipeValues = recipeDetails.length > 0 && recipeDetails !== null
       ? Object.entries(recipeDetails[0])
@@ -46,23 +42,15 @@ export default function RecipeDetails() {
       .startsWith(('strIngredient')) && ing[1] !== null
         && ing[1] !== '').map((ingName) => ingName[1]);
     setIngredients(ingredientsValues);
-  };
-  const getMeasures = (recipeDetails: MixedType[]) => {
-    const recipeValues = recipeDetails.length > 0 && recipeDetails !== null
-      ? Object.entries(recipeDetails[0])
-      : [];
     const measuresValues = recipeValues.filter((measure) => measure[0]
       .startsWith(('strMeasure')) && measure[1] !== null
       && measure[1] !== '').map((measureName) => measureName[1]);
     setMeasures(measuresValues);
   };
-
-  // const getLocalStorageDoneRecipesInfo = JSON
-  //   .parse(localStorage.getItem('doneRecipes') || '[]');
-  // // Tipo é any até implementar a tipagem do LocalStorage
-  // const isRecipeDone = getLocalStorageDoneRecipesInfo
-  //   .some((recipe: any) => recipe.id === recipeDetail[0].idMeal
-  // || recipe.id === recipeDetail[0].idDrink);
+  const getDoneRecipesInfo = JSON
+    .parse(localStorage.getItem('doneRecipes') || '[]');
+  const isRecipeDone = getDoneRecipesInfo
+    .some((recipe: any) => recipe.id === id);
 
   return (
     <div>
@@ -70,9 +58,15 @@ export default function RecipeDetails() {
         <div>
           <h2 data-testid="recipe-title">
             {witchPath ? (recipeDetail[0] as MealsType).strMeal
-              : (recipeDetail[0] as DrinksType).strDrink }
+              : (recipeDetail[0] as DrinksType).strDrink}
           </h2>
-          <h4 data-testid="recipe-category">{ recipeDetail[0].strCategory }</h4>
+          {witchPath ? (
+            <h4 data-testid="recipe-category">{ recipeDetail[0].strCategory }</h4>
+          ) : (
+            <h4 data-testid="recipe-category">
+              { `${recipeDetail[0].strCategory} 
+              - ${(recipeDetail[0] as DrinksType).strAlcoholic}` }
+            </h4>)}
           <img
             src={ witchPath ? (recipeDetail[0] as MealsType).strMealThumb
               : (recipeDetail[0] as DrinksType).strDrinkThumb }
@@ -110,10 +104,15 @@ export default function RecipeDetails() {
                 encrypted-media; gyroscope; picture-in-picture; web-share"
               />
             </div>)}
+          <div>
+            <RecommendationCard />
+          </div>
+          {!isRecipeDone && (
+            <div>
+              <DetailsButton />
+            </div>
+          )}
         </div>)}
-      <div>
-        <RecommendationCard />
-      </div>
     </div>
   );
 }
