@@ -3,6 +3,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import fetchRecipesDetailsApi from '../../Services/RecipeDetailsAPI';
 import { DrinksType, MealsType } from '../../Context/UserContext';
 import Loading from '../../Components/Loading';
+import RecommendationCard from '../../Components/RecomendationCard/RecomendationCard';
 
 export default function RecipeDetails() {
   const [mealRecipeDetail, setMealRecipeDetail] = useState<MealsType[]>([]);
@@ -122,6 +123,9 @@ export default function RecipeDetails() {
             {drinkRecipeDetail[0].strInstructions}
           </div>
         </div>)}
+      <div>
+        <RecommendationCard />
+      </div>
     </div>
   );
 }

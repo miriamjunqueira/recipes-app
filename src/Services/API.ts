@@ -82,3 +82,10 @@ export async function ReceitasPorCategoria(
 
   return primeiras12;
 }
+export const fetchRecommendations = async (path: string) => {
+  const response = await fetch(`https://www.${path}.com/api/json/v1/1/search.php?s=`);
+  const data = await response.json();
+  const sixRecomendations = path === 'themealdb' ? data.meals.slice(0, 6)
+    : data.drinks.slice(0, 6);
+  return sixRecomendations;
+};
