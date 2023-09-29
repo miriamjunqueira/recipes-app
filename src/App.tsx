@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './Pages/Login/Login';
 import Layout from './Components/Layout';
 import Profile from './Pages/Profile/Profile';
-import Recipes from './Components/Recipes/Recipes';
+import Recipes from './Components/Recipes';
 import RecipeDetails from './Pages/RecipeDetails/RecipeDetails';
 
 function App() {
