@@ -59,3 +59,20 @@ export async function getDrinksCategories() {
 
   return primeiras5;
 }
+
+export async function ReceitasPorCategoria(
+  typeOfFood: string,
+  typeOfSearch: string,
+  searchedWord: string,
+  kind: string,
+) {
+  const API_URL = `https://www.${typeOfFood}.com/api/json/v1/1/${typeOfSearch}=${searchedWord}`;
+  const response = await fetch(API_URL);
+  const data = await response.json();
+  const result = await data;
+  const resultado = result[kind];
+
+  const primeiras12 = resultado.slice(0, 12);
+
+  return primeiras12;
+}
