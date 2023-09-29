@@ -105,6 +105,16 @@ export default function RecipeDetails() {
               />
             </div>)}
           <div>
+            <button
+              data-testid="share-btn"
+            >
+              Share Recipe
+            </button>
+            <button
+              data-testid="favorite-btn"
+            >
+              Favorite Recipe
+            </button>
             <RecommendationCard />
           </div>
           {!isRecipeDone && (

@@ -24,12 +24,14 @@ export default function DetailsButton() {
   };
 
   return (
-    <button
-      className="start-button"
-      data-testid="start-recipe-btn"
-      onClick={ () => handleClick(pathname) }
-    >
-      {isInProgress}
-    </button>
+    <div className="button-container">
+      <button
+        className="start-button"
+        data-testid="start-recipe-btn"
+        onClick={ () => handleClick(pathname) }
+      >
+        {isInProgress}
+      </button>
+    </div>
   );
 }
