@@ -35,7 +35,7 @@ export default function Recipes() {
       setExibicaoPadrao(foodInfos.slice(0, 12));
     } else if (pathname === '/drinks') {
       setRecipesToDisplay(drinksInfos.slice(0, 12));
-      setExibicaoPadrao(foodInfos.slice(0, 12));
+      setExibicaoPadrao(drinksInfos.slice(0, 12));
     }
   }, [foodInfos, drinksInfos, pathname]);
 
@@ -56,11 +56,23 @@ export default function Recipes() {
   async function handleClick(event: any) {
     event.preventDefault();
     const categoria = event.target.id;
-    const retorno = await ReceitasPorCategoria(
-      'themealdb',
-      'filter.php?c',
-      `${categoria}`,
-    );
+
+    let retorno: MealsType[] | DrinksType[] = [];
+    if (pathname === '/meals') {
+      retorno = await ReceitasPorCategoria(
+        'themealdb',
+        'filter.php?c',
+        `${categoria}`,
+        'meals',
+      );
+    } else if (pathname === '/drinks') {
+      retorno = await ReceitasPorCategoria(
+        'thecocktaildb',
+        'filter.php?c',
+        `${categoria}`,
+        'drinks',
+      );
+    }
     setRecipesToDisplay(retorno);
   }
 
