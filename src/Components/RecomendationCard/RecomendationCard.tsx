@@ -18,13 +18,13 @@ export default function RecommendationCard() {
     getRecommendations();
   }, [urlForApi]);
 
-  const isMealARecomedation = !!(recommendation.length > 0
-    && recommendation !== null && Object.keys(recommendation[0]).includes('idMeal'));
+  const isMealARecommendation = !!(recommendation.length > 0
+  && Object.keys(recommendation[0]).includes('idMeal'));
 
   return (
     <div>
       <div className="carousel">
-        {!isMealARecomedation && (
+        {!isMealARecommendation ? (
           (recommendation as DrinksType[]).map((rec, index) => (
             <div
               className="carousel-card"
@@ -37,23 +37,18 @@ export default function RecommendationCard() {
               <img src={ rec.strDrinkThumb } alt={ rec.strDrink } width={ 80 } />
             </div>
           ))
-        )}
-      </div>
-      <div className="carousel">
-        {isMealARecomedation && (
-          ((recommendation as MealsType[]).map((rec, index) => (
-            <div
-              className="carousel-card"
-              data-testid={ `${index}-recommendation-card` }
-              key={ index }
-            >
-              <h3 data-testid={ `${index}-recommendation-title` }>
-                {rec.strMeal}
-              </h3>
-              <img src={ rec.strMealThumb } alt={ rec.strMeal } width={ 100 } />
-            </div>
-          )))
-        )}
+        ) : (((recommendation as MealsType[]).map((rec, index) => (
+          <div
+            className="carousel-card"
+            data-testid={ `${index}-recommendation-card` }
+            key={ index }
+          >
+            <h3 data-testid={ `${index}-recommendation-title` }>
+              {rec.strMeal}
+            </h3>
+            <img src={ rec.strMealThumb } alt={ rec.strMeal } width={ 100 } />
+          </div>
+        ))))}
       </div>
     </div>
   );
