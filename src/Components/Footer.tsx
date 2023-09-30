@@ -14,33 +14,30 @@ function Footer() {
   }
 
   return (
-    <div>
-      <p>Menu Inferior</p>
-      <footer data-testid="footer">
-        <form>
-          <button
-            onClick={ handleDrink }
-            data-testid="drinks-btn"
-          >
-            <img
-              data-testid="drinks-bottom-btn"
-              src="src/images/drinkIcon.svg"
-              alt="botao-de-bebidas"
-            />
-          </button>
-          <button
-            onClick={ handleFood }
-            data-testid="foods-btn"
-          >
-            <img
-              data-testid="meals-bottom-btn"
-              src="src/images/mealIcon.svg"
-              alt="botao-de-comidas"
-            />
-          </button>
-        </form>
-      </footer>
-    </div>
+    <footer data-testid="footer">
+      <form>
+        <button
+          onClick={ handleDrink }
+          data-testid="drinks-btn"
+        >
+          <img
+            data-testid="drinks-bottom-btn"
+            src="src/images/drinkIcon.svg"
+            alt="botao-de-bebidas"
+          />
+        </button>
+        <button
+          onClick={ handleFood }
+          data-testid="foods-btn"
+        >
+          <img
+            data-testid="meals-bottom-btn"
+            src="src/images/mealIcon.svg"
+            alt="botao-de-comidas"
+          />
+        </button>
+      </form>
+    </footer>
   );
 }
 

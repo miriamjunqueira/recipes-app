@@ -53,6 +53,8 @@ export type DrinksType = {
   strAlcoholic: string
 };
 
+export type MixedType = MealsType | DrinksType;
+
 type UserContextType = {
   setFoodInfos: (recipes: MealsType[]) => void
   foodInfos: MealsType[]
