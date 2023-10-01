@@ -6,6 +6,7 @@ import Loading from '../../Components/Loading';
 import './RecipeDetails.css';
 import RecommendationCard from '../../Components/RecomendationCard/RecomendationCard';
 import DetailsButton from './DetailsButton';
+import FavoriteButton from './FavoriteButton';
 
 export default function RecipeDetails() {
   const [loading, setLoading] = useState(true);
@@ -16,7 +17,6 @@ export default function RecipeDetails() {
   const { id } = useParams();
   const witchPath = pathname.includes('meals');
   const path = witchPath ? 'themealdb' : 'thecocktaildb';
-  console.log(pathname);
 
   useEffect(() => {
     const getAPIData = async () => {
@@ -52,6 +52,7 @@ export default function RecipeDetails() {
     .parse(localStorage.getItem('doneRecipes') || '[]');
   const isRecipeDone = getDoneRecipesInfo
     .some((recipe: any) => recipe.id === id);
+
   const handleShareButton = () => {
     navigator.clipboard.writeText(`http://localhost:3000${pathname}`)
       .then(() => {
@@ -65,6 +66,7 @@ export default function RecipeDetails() {
         console.error('Erro ao copiar o link: ', err);
       });
   };
+
   return (
     <div>
       {loading ? <Loading /> : (
@@ -128,11 +130,7 @@ export default function RecipeDetails() {
             >
               <img src="../src/images/shareIcon.svg" alt="Botão de compartilhar" />
             </button>
-            <button
-              data-testid="favorite-btn"
-            >
-              Favorite Recipe
-            </button>
+            <FavoriteButton recipeDetail={ recipeDetail[0] } />
             <RecommendationCard />
           </div>
           {!isRecipeDone && (
