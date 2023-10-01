@@ -77,7 +77,11 @@ export default function RecipeDetails() {
           />
           <div>
             {ingredients.map((ingValue, index) => (
-              <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
+              <div
+                key={ index }
+                id="ingredients"
+                data-testid={ `${index}-ingredient-name-and-measure` }
+              >
                 {ingValue}
                 {' '}
                 {' '}
