@@ -23,9 +23,7 @@ export default function FavoriteButton({ recipeDetail }: FavButtonProps) {
   ) || [];
   const isFavoriteOnLS = getFavoritesFromLS
     .some((recipe: Record<string, string>) => recipe.id === id);
-  console.log(isFavoriteOnLS);
   const [isFavorite, setIsFavorite] = useState(isFavoriteOnLS);
-  console.log(getFavoritesFromLS);
 
   const handleFavoriteRecipe = () => {
     const newFavRecipe = {
@@ -55,14 +53,18 @@ export default function FavoriteButton({ recipeDetail }: FavButtonProps) {
 
   return (
     <button
-      data-testid="favorite-btn"
       onClick={ handleFavoriteRecipe }
     >
-      <img
-        src={ !isFavorite
-          ? '../src/images/whiteHeartIcon.svg' : '../src/images/blackHeartIcon.svg' }
-        alt=""
+      {isFavorite ? <img
+        data-testid="favorite-btn"
+        src="../src/images/blackHeartIcon.svg"
+        alt="Favorito Preenchido"
       />
+        : <img
+            data-testid="favorite-btn"
+            src="../src/images/whiteHeartIcon.svg"
+            alt="Favorito Vazio"
+        />}
     </button>
   );
 }
