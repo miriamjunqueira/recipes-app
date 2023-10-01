@@ -61,7 +61,7 @@ export default function RecipeDetails() {
         document.body.appendChild(messageElement);
         setTimeout(() => {
           document.body.removeChild(messageElement);
-        }, 3000);
+        }, 2000);
       }).catch((err) => {
         console.error('Erro ao copiar o link: ', err);
       });
