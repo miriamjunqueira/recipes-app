@@ -1,4 +1,4 @@
-import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
+import { screen, waitForElementToBeRemoved } from '@testing-library/dom';
 import App from '../App';
 import renderWithRouter from '../renderWithRouter';
 
