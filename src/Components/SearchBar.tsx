@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import fetchRecipesApi from '../Services/API';
+import { fetchRecipesApi } from '../Services/API';
 import UserContext from '../Context/UserContext';
 
 export default function SearchBar() {

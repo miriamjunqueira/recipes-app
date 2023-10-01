@@ -1,5 +1,5 @@
 const alertText = "Sorry, we haven't found any recipes for these filters.";
-export default async function fetchRecipesApi(
+export async function fetchRecipesApi(
   typeOfFood: string,
   typeOfSearch: string,
   searchedWord: string,
@@ -8,6 +8,7 @@ export default async function fetchRecipesApi(
   const API_URL = `https://www.${typeOfFood}.com/api/json/v1/1/${typeOfSearch}=${searchedWord}`;
   try {
     const response = await fetch(API_URL);
+    console.log(response);
     const data = await response.json();
     const result = await data;
 
