@@ -1,108 +1,99 @@
 import { screen, waitFor } from '@testing-library/react';
 import renderWithRouter from '../renderWithRouter';
-import Recipes from '../Components/Recipes';
+import App from '../App';
 
 describe('Teste a página de receitas', () => {
-  test('Testa a renderização padrão de comidas', async () => {
-    renderWithRouter(<Recipes />, { route: '/meals' });
-
-    const arrayDeComidas = ['Corba', 'Sushi', 'Burek', 'Kumpir', 'Bistek', 'Tamiya', 'Poutine', 'Lasagne', 'Kafteji', 'Wontons', 'Dal fry', 'Koshari'];
-
-    waitFor(() => {
-      arrayDeComidas.forEach(async (comida) => {
-        const title = await screen.findByRole('heading', { name: `${comida}` });
-        expect(title).toBeInTheDocument();
-      });
-    });
+  test('Testa a renderização do Recipes Meals', async () => {
+    renderWithRouter(<App />, { route: '/meals' });
+    const beefButton = await screen.findByTestId('Beef-category-filter');
+    const breakfastButton = await screen.findByTestId('Breakfast-category-filter');
+    const chickenButton = await screen.findByTestId('Chicken-category-filter');
+    const dessertButton = await screen.findByTestId('Dessert-category-filter');
+    const goatButton = await screen.findByTestId('Goat-category-filter');
+    const allButton = await screen.findByTestId('All-category-filter');
+    expect(beefButton && breakfastButton && chickenButton && dessertButton && goatButton && allButton).toBeInTheDocument();
   });
-
-  test('Testa a renderização padrão de bebidas', async () => {
-    renderWithRouter(<Recipes />, { route: '/drinks' });
-
-    const arrayDeBebidas = ['GG', 'A1', 'Ace', '747', 'Kir', 'ABC', '252', 'AT&T', 'Smut', 'B-53', 'Adam', 'ACID'];
-
-    waitFor(() => {
-      arrayDeBebidas.forEach(async (bebida) => {
-        const title = await screen.findByRole('heading', { name: `${bebida}` });
-        expect(title).toBeInTheDocument();
-      });
-    });
+  test('Testa a renderização do Recipes Drinks', async () => {
+    renderWithRouter(<App />, { route: '/drinks' });
+    const ordinaryButton = await screen.findByTestId('Ordinary Drink-category-filter');
+    const cocktailButton = await screen.findByTestId('Cocktail-category-filter');
+    const shakeButton = await screen.findByTestId('Shake-category-filter');
+    const otherButton = await screen.findByTestId('Other / Unknown-category-filter');
+    const cocoaButton = await screen.findByTestId('Cocoa-category-filter');
+    const allButton = await screen.findByTestId('All-category-filter');
+    expect(ordinaryButton && cocktailButton && shakeButton && otherButton && cocoaButton && allButton).toBeInTheDocument();
   });
-
-  test('Testa a mudança de rota quando for retornado apenas 1 elemento', async () => {
-    const { user } = renderWithRouter(<Recipes />, { route: '/meals' });
-
+  test('Testa a renderização do Recipes Meals', async () => {
+    // Precisa de MOCK, passa mas as vezes nao mesma coisa para os outros
+    const { user } = renderWithRouter(<App />, { route: '/meals' });
+    const goatButton = await screen.findByTestId('Goat-category-filter');
+    await user.click(goatButton);
     waitFor(async () => {
-      const lupa = await screen.findByRole('img', { name: 'botao-pesquisar' });
-      await user.click(lupa);
-      const campoInput = await screen.findByRole('textbox');
-      await user.type(campoInput, 'Poutine');
-      const radioButtonName = await screen.findByText('name');
-      await user.click(radioButtonName);
-      const searchButton = await screen.getByTestId('exec-search-btn');
-      await user.click(searchButton);
-      expect(lupa).not.toBeInTheDocument();
+      const foodCard = await screen.findByTestId('1-card-name');
+      expect(foodCard).toBeInTheDocument();
     });
   });
-
-  test('Testa alteração na rota ao clicar em uma receita', async () => {
-    const { user } = renderWithRouter(<Recipes />, { route: '/meals' });
-
+  test('Testa a renderização do Recipes Meals ao clicar no card', async () => {
+    // Precisa de MOCK, passa mas as vezes nao mesma coisa para os outros
+    const { user } = renderWithRouter(<App />, { route: '/meals' });
+    const dessertButton = await screen.findByTestId('Dessert-category-filter');
+    await user.click(dessertButton);
     waitFor(async () => {
-      const primeiraReceitaPadrao = await screen.findByTestId('0-recipe-card');
-      await user.click(primeiraReceitaPadrao);
-      const titulo = screen.getByRole('heading', { name: 'Instructions' });
-      expect(titulo).toBeInTheDocument();
+      const foodCard = await screen.findByTestId('1-card-name');
+      expect(foodCard).toBeInTheDocument();
     });
   });
-
-  test('Testa se um botão de categorias de bebidas é exibido', async () => {
-    renderWithRouter(<Recipes />, { route: '/drinks' });
-
-    // const categoriesArray = ['Ordinary Drink', 'Cocktail', 'Shake', 'Other/Unknown', 'Cocoa', 'All'];
-
-    waitFor(async () => {
-      expect(screen.getByText('Ordinary Drink')).toBeInTheDocument();
+  test('Testa se ao buscar encontra apenas 1 receita é redirecionado para tela da receita', async () => {
+    // Precisa de MOCK, passa mas as vezes nao mesma coisa para os outros
+    const { user } = renderWithRouter(<App />, { route: '/meals' });
+    const getSearchButton = screen.getByTestId('search-top-btn');
+    await user.click(getSearchButton);
+    const getTextInput = screen.getByTestId('search-input');
+    await user.type(getTextInput, 'Salmon Prawn Risotto');
+    const getNameFilter = screen.getByTestId('name-search-radio');
+    await user.click(getNameFilter);
+    const getFilterButton = screen.getByTestId('exec-search-btn');
+    await user.click(getFilterButton);
+    const getRecipeTitle = await screen.findByTestId('recipe-title');
+    expect(window.location.pathname).toBe('/meals/52823');
+    expect(getRecipeTitle).toBeInTheDocument();
+  });
+  test('Testa se ao buscar encontra apenas 1 receita é redirecionado para tela da receita drinks', async () => {
+    // Precisa de MOCK, passa mas as vezes nao mesma coisa para os outros
+    const { user } = renderWithRouter(<App />, { route: '/drinks' });
+    const getSearchButton = screen.getByTestId('search-top-btn');
+    await user.click(getSearchButton);
+    const getTextInput = screen.getByTestId('search-input');
+    await user.type(getTextInput, 'Castillian Hot Chocolate');
+    const getNameFilter = screen.getByTestId('name-search-radio');
+    await user.click(getNameFilter);
+    const getFilterButton = screen.getByTestId('exec-search-btn');
+    await user.click(getFilterButton);
+    await waitFor(async () => {
+      const getRecipeTitle = await screen.findByTestId('recipe-title');
+      expect(window.location.pathname).toBe('/drinks/12730');
+      expect(getRecipeTitle).toBeInTheDocument();
     });
   });
-
-  test('testa o clique na categoria beef', async () => {
-    const { user } = renderWithRouter(<Recipes />, { route: '/meals' });
-
-    const arrayDeComidas = ['Corba', 'Sushi', 'Burek', 'Kumpir', 'Bistek', 'Tamiya', 'Poutine', 'Lasagne', 'Kafteji', 'Wontons', 'Dal fry', 'Koshari'];
-
-    waitFor(() => {
-      arrayDeComidas.forEach(async (comida) => {
-        const title = await screen.findByRole('heading', { name: `${comida}` });
-        expect(title).toBeInTheDocument();
-      });
-
-      // const botao = screen.getByRole('button', { name: 'Beef' });
-      // user.click(botao);
-      // expect(screen.getByText('Beef and Mustard Pie')).toBeInTheDocument();
-    });
+  test('Testa a renderização do Recipes Drinks ao clicar no card', async () => {
+    // Precisa de MOCK, passa mas as vezes nao mesma coisa para os outros
+    const { user } = renderWithRouter(<App />, { route: '/drinks' });
+    const dessertButton = await screen.findByTestId('Shake-category-filter');
+    await user.click(dessertButton);
+    const foodCard = await screen.findByTestId('0-card-name');
+    expect(foodCard).toBeInTheDocument();
   });
-
-  test('testa o retorno das receitas inicias em razão da função toogle', async () => {
-    const { user } = renderWithRouter(<Recipes />, { route: '/meals' });
-
-    waitFor(async () => {
-      const botao = await screen.findByRole('button', { name: 'Beef' });
-      await user.click(botao);
-      expect(screen.getByText('Beef and Mustard Pie')).toBeInTheDocument();
-      await user.click(botao);
-      expect(screen.getByText('Corba')).toBeInTheDocument();
-    });
-  });
-
-  test('Testa o retorno da categoria Goat', async () => {
-    const { user } = renderWithRouter(<Recipes />, { route: '/meals' });
-
-    waitFor(async () => {
-      const goatCategory = screen.getByRole('button', { name: 'Goat' });
-      await user.click(goatCategory);
-      const recipeTitle = await screen.findByRole('heading', { level: 3, name: 'Mbuzi Choma (Roasted Goat)' });
-      expect(recipeTitle).toBeInTheDocument();
+  test('Testa a renderização do Recipes Drinks', async () => {
+    // Precisa de MOCK, passa mas as vezes nao mesma coisa para os outros
+    const { user } = renderWithRouter(<App />, { route: '/drinks' });
+    await waitFor(async () => {
+      const shakeButton = await screen.findByTestId('Shake-category-filter');
+      await user.click(shakeButton);
+      const foodCard = await screen.findByTestId('0-card-name');
+      await user.click(foodCard);
+      const getRecipeCategory = await screen.findByTestId('recipe-category');
+      expect(window.location.pathname).toBe('/drinks/14588');
+      expect(getRecipeCategory).toBeInTheDocument();
     });
   });
 });

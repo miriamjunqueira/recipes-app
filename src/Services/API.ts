@@ -77,12 +77,7 @@ export async function ReceitasPorCategoria(
   const data = await response.json();
   const result = await data;
   const resultado = result[kind];
-
   const primeiras12 = resultado.slice(0, 12);
-
-  console.log('primeiras 12:');
-  console.log(primeiras12);
-
   return primeiras12;
 }
 export const fetchRecommendations = async (path: string) => {

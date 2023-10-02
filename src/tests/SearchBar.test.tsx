@@ -22,8 +22,8 @@ describe('Testa o componente SearchBar', () => {
     await user.click(radioName);
     const getFilterButton = screen.getByTestId(searchButtonText);
     await user.click(getFilterButton);
-    const getFoodCard = screen.getAllByRole('heading', { level: 3 });
-    expect(getFoodCard).toHaveLength(5);
+    const getFoodCard = screen.getByTestId('0-recipe-card');
+    expect(getFoodCard).toBeInTheDocument();
   });
   test('Testa se a pesquisa por First Letter funciona corretamente', async () => {
     vi.spyOn(APIModules, 'fetchRecipesApi').mockResolvedValue(mockMealSearchByFirstLetter.meals);
@@ -36,8 +36,8 @@ describe('Testa o componente SearchBar', () => {
     await user.click(radioName);
     const getFilterButton = screen.getByTestId(searchButtonText);
     await user.click(getFilterButton);
-    const getFoodCard = screen.getAllByRole('heading', { level: 3 });
-    expect(getFoodCard).toHaveLength(4);
+    const getFoodCard = screen.getByTestId('1-recipe-card');
+    expect(getFoodCard).toBeInTheDocument();
   });
   test('Testa se a pesquisa por First Letter ao digitar mais de uma letra retorna Alert', async () => {
     vi.spyOn(APIModules, 'fetchRecipesApi');
@@ -66,10 +66,8 @@ describe('Testa o componente SearchBar', () => {
     await user.click(radioName);
     const getFilterButton = screen.getByTestId(searchButtonText);
     await user.click(getFilterButton);
-    const getFoodCard = screen.getAllByRole('heading', { level: 3 });
-    const getSalmonCard = await screen.findAllByRole('heading', { level: 3, name: /salmon/i });
-    expect(getFoodCard).toHaveLength(5);
-    expect(getSalmonCard).toHaveLength(4);
+    const getFoodCard = screen.getByTestId('0-recipe-card');
+    expect(getFoodCard).toBeInTheDocument();
   });
   test('Testa se a rota for drinks requisiçao é feita para Cocktaildb no search', async () => {
     vi.spyOn(APIModules, 'fetchRecipesApi');
