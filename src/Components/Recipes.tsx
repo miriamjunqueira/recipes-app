@@ -57,6 +57,8 @@ export default function Recipes() {
     event.preventDefault();
 
     const categoria = event.target.id;
+    console.log('categoria:');
+    console.log(categoria);
 
     let retorno: MealsType[] | DrinksType[] = [];
     if (pathname === '/meals') {

@@ -57,7 +57,7 @@ describe('Teste a página de receitas', () => {
   });
 
   test('Testa se um botão de categorias de bebidas é exibido', async () => {
-    const { user } = renderWithRouter(<Recipes />, { route: '/drinks' });
+    renderWithRouter(<Recipes />, { route: '/drinks' });
 
     // const categoriesArray = ['Ordinary Drink', 'Cocktail', 'Shake', 'Other/Unknown', 'Cocoa', 'All'];
 
@@ -77,9 +77,9 @@ describe('Teste a página de receitas', () => {
         expect(title).toBeInTheDocument();
       });
 
-      const botao = screen.getByRole('button', { name: 'Beef' });
-      user.click(botao);
-      expect(screen.getByText('Beef and Mustard Pie')).toBeInTheDocument();
+      // const botao = screen.getByRole('button', { name: 'Beef' });
+      // user.click(botao);
+      // expect(screen.getByText('Beef and Mustard Pie')).toBeInTheDocument();
     });
   });
 
@@ -87,11 +87,22 @@ describe('Teste a página de receitas', () => {
     const { user } = renderWithRouter(<Recipes />, { route: '/meals' });
 
     waitFor(async () => {
-      const botao = screen.findByRole('button', { name: 'Beef' });
+      const botao = await screen.findByRole('button', { name: 'Beef' });
       await user.click(botao);
       expect(screen.getByText('Beef and Mustard Pie')).toBeInTheDocument();
       await user.click(botao);
       expect(screen.getByText('Corba')).toBeInTheDocument();
+    });
+  });
+
+  test('Testa o retorno da categoria Goat', async () => {
+    const { user } = renderWithRouter(<Recipes />, { route: '/meals' });
+
+    waitFor(async () => {
+      const goatCategory = screen.getByRole('button', { name: 'Goat' });
+      await user.click(goatCategory);
+      const recipeTitle = await screen.findByRole('heading', { level: 3, name: 'Mbuzi Choma (Roasted Goat)' });
+      expect(recipeTitle).toBeInTheDocument();
     });
   });
 });
