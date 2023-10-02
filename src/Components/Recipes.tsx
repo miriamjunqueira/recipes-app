@@ -57,6 +57,8 @@ export default function Recipes() {
     event.preventDefault();
 
     const categoria = event.target.id;
+    console.log('categoria:');
+    console.log(categoria);
 
     let retorno: MealsType[] | DrinksType[] = [];
     if (pathname === '/meals') {
@@ -85,6 +87,11 @@ export default function Recipes() {
 
   function handleDeleteFilters() {
     setRecipesToDisplay(exibicaoPadrao);
+  }
+
+  function handleDetails(event:any) {
+    const receita = event.target.id;
+    navigate(`${pathname}/${receita}`);
   }
 
   if (recipesToDisplay.length !== null) {
@@ -119,7 +126,14 @@ export default function Recipes() {
 
         {pathname === '/meals'
         && (recipesToDisplay as MealsType[]).map((recipe, index) => (
-          <div data-testid={ `${index}-recipe-card` } key={ recipe.idMeal }>
+          <div
+            data-testid={ `${index}-recipe-card` }
+            key={ recipe.idMeal }
+            className="recipe-card"
+            id={ recipe.idMeal }
+            onClick={ handleDetails }
+            aria-hidden="true"
+          >
             <h3 data-testid={ `${index}-card-name` }>{recipe.strMeal}</h3>
             <img
               data-testid={ `${index}-card-img` }
@@ -127,12 +141,26 @@ export default function Recipes() {
               alt={ `foto sobre ${recipe.strMeal}` }
               width={ 80 }
             />
+            <a
+              href={ `/meals/${recipe.idMeal}` }
+              className="btn btn-primary"
+              id="details-btn"
+            >
+              Detalhes
+            </a>
           </div>
         ))}
 
         {pathname === '/drinks'
         && (recipesToDisplay as DrinksType[]).map((recipe, index) => (
-          <div data-testid={ `${index}-recipe-card` } key={ recipe.idDrink }>
+          <div
+            data-testid={ `${index}-recipe-card` }
+            key={ recipe.idDrink }
+            className="recipe-card"
+            id={ recipe.idDrink }
+            onClick={ handleDetails }
+            aria-hidden="true"
+          >
             <h3 data-testid={ `${index}-card-name` }>{recipe.strDrink}</h3>
             <img
               data-testid={ `${index}-card-img` }

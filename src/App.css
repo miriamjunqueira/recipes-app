@@ -100,3 +100,19 @@ footer {
   background-color: #8c4d0a;
 }
 
+#details-btn {
+  background-color: #8c4d0a;
+  border: none;
+  cursor: pointer;
+  margin: 4px 2px;
+  padding: 3px 6px;
+  display: block;
+  width: 100px;
+}
+
+.recipe-card {
+  background-color: #bcaa8a;
+  border: solid rgb(79, 51, 13) 1px;
+  border-radius: 8px;
+}
+
