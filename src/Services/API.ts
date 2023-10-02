@@ -74,5 +74,8 @@ export async function ReceitasPorCategoria(
 
   const primeiras12 = resultado.slice(0, 12);
 
+  console.log('primeiras 12:');
+  console.log(primeiras12);
+
   return primeiras12;
 }

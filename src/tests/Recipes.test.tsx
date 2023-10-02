@@ -44,4 +44,54 @@ describe.only('Teste a página de receitas', () => {
       expect(lupa).not.toBeInTheDocument();
     });
   });
+
+  test('Testa alteração na rota ao clicar em uma receita', async () => {
+    const { user } = renderWithRouter(<Recipes />, { route: '/meals' });
+
+    waitFor(async () => {
+      const primeiraReceitaPadrao = await screen.findByTestId('0-recipe-card');
+      await user.click(primeiraReceitaPadrao);
+      const titulo = screen.getByRole('heading', { name: 'Instructions' });
+      expect(titulo).toBeInTheDocument();
+    });
+  });
+
+  test('Testa se um botão de categorias de bebidas é exibido', async () => {
+    const { user } = renderWithRouter(<Recipes />, { route: '/drinks' });
+
+    // const categoriesArray = ['Ordinary Drink', 'Cocktail', 'Shake', 'Other/Unknown', 'Cocoa', 'All'];
+
+    waitFor(async () => {
+      expect(screen.getByText('Ordinary Drink')).toBeInTheDocument();
+    });
+  });
+
+  test('testa o clique na categoria beef', async () => {
+    const { user } = renderWithRouter(<Recipes />, { route: '/meals' });
+
+    const arrayDeComidas = ['Corba', 'Sushi', 'Burek', 'Kumpir', 'Bistek', 'Tamiya', 'Poutine', 'Lasagne', 'Kafteji', 'Wontons', 'Dal fry', 'Koshari'];
+
+    waitFor(() => {
+      arrayDeComidas.forEach(async (comida) => {
+        const title = await screen.findByRole('heading', { name: `${comida}` });
+        expect(title).toBeInTheDocument();
+      });
+
+      const botao = screen.getByRole('button', { name: 'Beef' });
+      user.click(botao);
+      expect(screen.getByText('Beef and Mustard Pie')).toBeInTheDocument();
+    });
+  });
+
+  test('testa o retorno das receitas inicias em razão da função toogle', async () => {
+    const { user } = renderWithRouter(<Recipes />, { route: '/meals' });
+
+    waitFor(async () => {
+      const botao = screen.findByRole('button', { name: 'Beef' });
+      await user.click(botao);
+      expect(screen.getByText('Beef and Mustard Pie')).toBeInTheDocument();
+      await user.click(botao);
+      expect(screen.getByText('Corba')).toBeInTheDocument();
+    });
+  });
 });
