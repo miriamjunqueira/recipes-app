@@ -1,27 +1,33 @@
-export default async function fetchRecipesApi(
+const alertText = "Sorry, we haven't found any recipes for these filters.";
+export async function fetchRecipesApi(
   typeOfFood: string,
   typeOfSearch: string,
   searchedWord: string,
   pathName: string,
 ) {
   const API_URL = `https://www.${typeOfFood}.com/api/json/v1/1/${typeOfSearch}=${searchedWord}`;
-  const response = await fetch(API_URL);
-  const data = await response.json();
-  const result = await data;
+  try {
+    const response = await fetch(API_URL);
+    const data = await response.json();
+    const result = await data;
 
-  if (pathName === '/meals' && result.meals === null) {
-    window.alert("Sorry, we haven't found any recipes for these filters.");
+    if (pathName === '/meals' && result.meals === null) {
+      window.alert(alertText);
+      return [];
+    }
+    if (pathName === '/drinks' && result.drinks === null) {
+      window.alert(alertText);
+      return [];
+    }
+    if (pathName === '/meals') {
+      return data.meals;
+    }
+    if (pathName === '/drinks') {
+      return data.drinks;
+    }
+  } catch (error) {
+    window.alert(alertText);
     return [];
-  }
-  if (pathName === '/drinks' && result.drinks === null) {
-    window.alert("Sorry, we haven't found any recipes for these filters.");
-    return [];
-  }
-  if (pathName === '/meals') {
-    return data.meals;
-  }
-  if (pathName === '/drinks') {
-    return data.drinks;
   }
 }
 
@@ -79,3 +85,10 @@ export async function ReceitasPorCategoria(
 
   return primeiras12;
 }
+export const fetchRecommendations = async (path: string) => {
+  const response = await fetch(`https://www.${path}.com/api/json/v1/1/search.php?s=`);
+  const data = await response.json();
+  const sixRecomendations = path === 'themealdb' ? data.meals.slice(0, 6)
+    : data.drinks.slice(0, 6);
+  return sixRecomendations;
+};

@@ -1,10 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { an } from 'vitest/dist/types-e3c9754d';
-import UserContext, { DrinksType, MealsType } from '../../Context/UserContext';
+import UserContext, { DrinksType, MealsType } from '../Context/UserContext';
 import { getFoodsCategories,
   getDrinksCategories,
-  ReceitasPorCategoria } from '../../Services/API';
+  ReceitasPorCategoria } from '../Services/API';
 
 export default function Recipes() {
   const { foodInfos, drinksInfos } = useContext(UserContext);

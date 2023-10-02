@@ -1,8 +1,8 @@
 import { screen, waitFor } from '@testing-library/react';
 import renderWithRouter from '../renderWithRouter';
-import Recipes from '../Components/Recipes/Recipes';
+import Recipes from '../Components/Recipes';
 
-describe.only('Teste a página de receitas', () => {
+describe('Teste a página de receitas', () => {
   test('Testa a renderização padrão de comidas', async () => {
     renderWithRouter(<Recipes />, { route: '/meals' });
 

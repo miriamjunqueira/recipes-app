@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import fetchRecipesApi from '../Services/API';
+import { fetchRecipesApi } from '../Services/API';
 import UserContext from '../Context/UserContext';
 
 export default function SearchBar() {
   const [radioButton, setRadioButtons] = useState('Name');
   const [searchedWord, setSearchedWord] = useState('');
   const location = useLocation();
-  const { setFoodInfos } = useContext(UserContext);
+  const { setFoodInfos, setDrinksInfos } = useContext(UserContext);
   const { pathname } = location;
   const urlForApi = pathname === '/meals' ? 'themealdb' : 'thecocktaildb';
 
@@ -32,15 +32,18 @@ export default function SearchBar() {
         pathname,
       );
       setFoodInfos(nameData);
+      setDrinksInfos(nameData);
     }
     if (radioButton === 'Ingredient') {
       const ingredientData = await
       fetchRecipesApi(urlForApi, 'filter.php?i', searchedWord, pathname);
+      setDrinksInfos(ingredientData);
       setFoodInfos(ingredientData);
     }
     if (radioButton === 'First Letter' && searchedWord.length === 1) {
       const firstLetterData = await
       fetchRecipesApi(urlForApi, 'search.php?f', searchedWord, pathname);
+      setDrinksInfos(firstLetterData);
       setFoodInfos(firstLetterData);
     }
   };

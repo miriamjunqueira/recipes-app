@@ -31,6 +31,7 @@ export type DrinksType = {
   idMeal?: string;
   idDrink: string;
   strDrink: string;
+  strArea: string;
   strDrinkThumb: string;
   strCategory: string;
   strIngredient1: string;
@@ -52,6 +53,8 @@ export type DrinksType = {
   strInstructions: string;
   strAlcoholic: string
 };
+
+export type MixedType = MealsType | DrinksType;
 
 type UserContextType = {
   setFoodInfos: (recipes: MealsType[]) => void
