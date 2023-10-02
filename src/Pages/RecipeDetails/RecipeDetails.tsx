@@ -6,6 +6,7 @@ import Loading from '../../Components/Loading';
 import './RecipeDetails.css';
 import RecommendationCard from '../../Components/RecomendationCard/RecomendationCard';
 import DetailsButton from './DetailsButton';
+import FavoriteButton from './FavoriteButton';
 
 export default function RecipeDetails() {
   const [loading, setLoading] = useState(true);
@@ -52,6 +53,20 @@ export default function RecipeDetails() {
   const isRecipeDone = getDoneRecipesInfo
     .some((recipe: any) => recipe.id === id);
 
+  const handleShareButton = () => {
+    navigator.clipboard.writeText(`http://localhost:3000${pathname}`)
+      .then(() => {
+        const messageElement = document.createElement('div');
+        messageElement.innerHTML = 'Link copied!';
+        document.body.appendChild(messageElement);
+        setTimeout(() => {
+          document.body.removeChild(messageElement);
+        }, 2000);
+      }).catch((err) => {
+        console.error('Erro ao copiar o link: ', err);
+      });
+  };
+
   return (
     <div>
       {loading ? <Loading /> : (
@@ -77,7 +92,11 @@ export default function RecipeDetails() {
           />
           <div>
             {ingredients.map((ingValue, index) => (
-              <div key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
+              <div
+                key={ index }
+                id="ingredients"
+                data-testid={ `${index}-ingredient-name-and-measure` }
+              >
                 {ingValue}
                 {' '}
                 {' '}
@@ -107,14 +126,11 @@ export default function RecipeDetails() {
           <div>
             <button
               data-testid="share-btn"
+              onClick={ handleShareButton }
             >
-              Share Recipe
+              <img src="../src/images/shareIcon.svg" alt="Botão de compartilhar" />
             </button>
-            <button
-              data-testid="favorite-btn"
-            >
-              Favorite Recipe
-            </button>
+            <FavoriteButton recipeDetail={ recipeDetail[0] } />
             <RecommendationCard />
           </div>
           {!isRecipeDone && (

@@ -12,11 +12,11 @@ export default function UserProvider({ children }: UserProviderProps) {
 
   useEffect(() => {
     async function buscaInfos() {
-      const allfoos = await getAllFoods();
-      const alldrinks = await getAllDrinks();
+      const allFoods = await getAllFoods();
+      const allDrinks = await getAllDrinks();
 
-      setFoodInfos(allfoos);
-      setDrinksInfos(alldrinks);
+      setFoodInfos(allFoods);
+      setDrinksInfos(allDrinks);
     }
     buscaInfos();
   }, []);

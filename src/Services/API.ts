@@ -1,5 +1,5 @@
 const alertText = "Sorry, we haven't found any recipes for these filters.";
-export default async function fetchRecipesApi(
+export async function fetchRecipesApi(
   typeOfFood: string,
   typeOfSearch: string,
   searchedWord: string,
