@@ -1,15 +1,14 @@
 import { screen } from '@testing-library/dom';
+import renderWithRouter from '../renderWithRouter';
 import App from '../App';
-import { renderWithRouter } from 'react-router-dom';
 
 describe('Profile Component Tests', () => {
   beforeEach(() => {
     localStorage.clear();
   });
 
-  renderWithRouter(<App />, { route: '/profile' });
-
   test('renders profile page correctly', () => {
+    renderWithRouter(<App />, { route: '/profile' });
     const profileChecker = screen.getByRole('heading', {
       name: /profile/i,
     });

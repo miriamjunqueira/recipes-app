@@ -65,7 +65,6 @@ export default function Login() {
 
         </button>
       </form>
-      <div>{loginData.email}</div>
     </div>
   );
 }
