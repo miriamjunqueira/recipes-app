@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import UserContext from '../../Context/UserContext';
 
 const INITIAL_DATA_USER = {
   email: '',
@@ -7,6 +8,8 @@ const INITIAL_DATA_USER = {
 };
 
 export default function Login() {
+  const { recipesAPI } = useContext(UserContext);
+  console.log(recipesAPI);
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState(INITIAL_DATA_USER);
 

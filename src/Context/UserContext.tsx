@@ -1,9 +1,7 @@
 import { createContext } from 'react';
 
 type UserContextType = {
-  nome: string,
-  email: string,
-  password: string,
+  recipesAPI: any[],
 };
 
 const UserContext = createContext({} as UserContextType);
