@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import Header from '../../Components/Header';
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
   const [user, setUser] = useState({ email: '' });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -12,19 +13,40 @@ function Profile() {
     }
   }, []);
 
-  /* const navigate = useNavigate(); */
-
+  const handleDoneClick = () => navigate('/done-recipes');
+  const handleFavoriteClick = () => navigate('/favorite-recipes');
+  const handleLogoutClick = () => {
+    localStorage.clear();
+    navigate('/');
+  };
   return (
     <div>
-      <Header />
       <div>
+        <h1>Profile</h1>
         <p data-testid="profile-email">{user.email}</p>
 
-        <button data-testid="profile-done-btn">Done Recipes</button>
+        <button
+          data-testid="profile-done-btn"
+          onClick={ handleDoneClick }
+        >
+          Done Recipes
+        </button>
         {' '}
-        <button data-testid="profile-favorite-btn">Favorite Recipes</button>
+        <button
+          data-testid="profile-favorite-btn"
+          onClick={ handleFavoriteClick }
+        >
+          Favorite Recipes
+
+        </button>
         {' '}
-        <button data-testid="profile-logout-btn">Logout</button>
+        <button
+          data-testid="profile-logout-btn"
+          onClick={ handleLogoutClick }
+        >
+          Logout
+
+        </button>
       </div>
     </div>
   );
