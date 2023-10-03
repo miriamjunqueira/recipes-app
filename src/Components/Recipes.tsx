@@ -140,13 +140,13 @@ export default function Recipes() {
               alt={ `foto sobre ${recipe.strMeal}` }
               width={ 80 }
             />
-            <a
+            {/* <a
               href={ `/meals/${recipe.idMeal}` }
               className="btn btn-primary"
               id="details-btn"
             >
               Detalhes
-            </a>
+            </a> */}
           </div>
         ))}
 
