@@ -4,7 +4,7 @@ import renderWithRouter from '../renderWithRouter';
 import App from '../App';
 import * as APIModules from '../Services/API';
 import { mockCocoaRecipes, mockDrinksCategories, mockGoatRecipes, mockMealsCategories, mockOneResultDrink, mockOneResultMeal } from './Mocks/MockData';
-import { mockExibicaoPadrao } from './Mocks/MockExibi';
+import { mockExibicaoPadrao } from './Mocks/MockExibicaoPadrao';
 
 const firstCard = '0-card-name';
 const goatCatName = 'Goat-category-filter';
