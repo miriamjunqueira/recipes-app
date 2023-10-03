@@ -15,6 +15,7 @@ export async function fetchRecipesApi(
       return [];
     }
     if (pathName === '/drinks' && result.drinks === null) {
+      window.alert(alertText);
       return [];
     }
     if (pathName === '/meals') {
