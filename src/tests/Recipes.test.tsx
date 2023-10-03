@@ -1,5 +1,5 @@
 import { vi } from 'vitest';
-import { findByText, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import renderWithRouter from '../renderWithRouter';
 import App from '../App';
 import * as APIModules from '../Services/API';
