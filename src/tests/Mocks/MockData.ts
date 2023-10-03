@@ -70,3 +70,126 @@ export const mockMealSearchByIngredient = { meals:
 { strMeal: 'Three Fish Pie',
   strMealThumb: 'https://www.themealdb.com/images/media/meals/spswqs1511558697.jpg',
   idMeal: '52882' }] };
+export const mockMealsCategories = ['Beef', 'Breakfast', 'Chicken', 'Dessert', 'Goat'];
+export const mockDrinksCategories = ['Ordinary Drink',
+  'Cocktail', 'Shake', 'Other / Unknown', 'Cocoa'];
+export const mockGoatRecipes = [
+  {
+    strMeal: 'Mbuzi Choma (Roasted Goat)',
+    strMealThumb: 'https://www.themealdb.com/images/media/meals/cuio7s1555492979.jpg',
+    idMeal: '52968',
+  },
+];
+export const mockCocoaRecipes = [
+  {
+    strDrink: 'Castillian Hot Chocolate',
+    strDrinkThumb:
+      'https://www.thecocktaildb.com/images/media/drink/3nbu4a1487603196.jpg',
+    idDrink: '12730',
+  },
+  {
+    strDrink: 'Chocolate Beverage',
+    strDrinkThumb:
+      'https://www.thecocktaildb.com/images/media/drink/jbqrhv1487603186.jpg',
+    idDrink: '12732',
+  },
+  {
+    strDrink: 'Chocolate Drink',
+    strDrinkThumb:
+      'https://www.thecocktaildb.com/images/media/drink/q7w4xu1487603180.jpg',
+    idDrink: '12734',
+  },
+  {
+    strDrink: 'Drinking Chocolate',
+    strDrinkThumb:
+      'https://www.thecocktaildb.com/images/media/drink/u6jrdf1487603173.jpg',
+    idDrink: '12736',
+  },
+  {
+    strDrink: 'Hot Chocolate to Die for',
+    strDrinkThumb:
+      'https://www.thecocktaildb.com/images/media/drink/0lrmjp1487603166.jpg',
+    idDrink: '12738',
+  },
+  {
+    strDrink: 'Microwave Hot Cocoa',
+    strDrinkThumb:
+      'https://www.thecocktaildb.com/images/media/drink/8y4x5f1487603151.jpg',
+    idDrink: '12744',
+  },
+  {
+    strDrink: 'Nuked Hot Chocolate',
+    strDrinkThumb:
+      'https://www.thecocktaildb.com/images/media/drink/xcu6nb1487603142.jpg',
+    idDrink: '12746',
+  },
+  {
+    strDrink: 'Orange Scented Hot Chocolate',
+    strDrinkThumb:
+      'https://www.thecocktaildb.com/images/media/drink/hdzwrh1487603131.jpg',
+    idDrink: '12748',
+  },
+  {
+    strDrink: 'Spanish chocolate',
+    strDrinkThumb:
+      'https://www.thecocktaildb.com/images/media/drink/pra8vt1487603054.jpg',
+    idDrink: '12750',
+  },
+];
+export const mockOneResultDrink = [
+  {
+    idDrink: '12730',
+    strDrink: 'Castillian Hot Chocolate',
+    strCategory: 'Cocoa',
+    strAlcoholic: 'Non alcoholic',
+    strGlass: 'Coffee mug',
+    strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/3nbu4a1487603196.jpg',
+    strIngredient1: 'Cocoa powder',
+    strIngredient2: 'Sugar',
+    strIngredient3: 'Cornstarch',
+    strIngredient4: 'Water',
+    strIngredient5: 'Milk',
+    strMeasure1: '1/2 cup ',
+    strMeasure2: '1 cup ',
+    strMeasure3: '7 tsp ',
+    strMeasure4: '1/2 cup ',
+    strMeasure5: '1 qt ',
+  },
+];
+export const mockOneResultMeal = [
+  {
+    idMeal: '52977',
+    strMeal: 'Corba',
+    strCategory: 'Side',
+    strArea: 'Turkish',
+    strMealThumb: 'https://www.themealdb.com/images/media/meals/58oia61564916529.jpg',
+    strTags: 'Soup',
+    strYoutube: 'https://www.youtube.com/watch?v=VVnZd8A84z4',
+    strIngredient1: 'Lentils',
+    strIngredient2: 'Onion',
+    strIngredient3: 'Carrots',
+    strIngredient4: 'Tomato Puree',
+    strIngredient5: 'Cumin',
+    strIngredient6: 'Paprika',
+    strIngredient7: 'Mint',
+    strIngredient8: 'Thyme',
+    strIngredient9: 'Black Pepper',
+    strIngredient10: 'Red Pepper Flakes',
+    strIngredient11: 'Vegetable Stock',
+    strIngredient12: 'Water',
+    strIngredient13: 'Sea Salt',
+    strMeasure1: '1 cup ',
+    strMeasure2: '1 large',
+    strMeasure3: '1 large',
+    strMeasure4: '1 tbs',
+    strMeasure5: '2 tsp',
+    strMeasure6: '1 tsp ',
+    strMeasure7: '1/2 tsp',
+    strMeasure8: '1/2 tsp',
+    strMeasure9: '1/4 tsp',
+    strMeasure10: '1/4 tsp',
+    strMeasure11: '4 cups ',
+    strMeasure12: '1 cup ',
+    strMeasure13: 'Pinch',
+  },
+];

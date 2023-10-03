@@ -31,6 +31,7 @@ export default function SearchBar() {
         searchedWord,
         pathname,
       );
+      console.log(nameData);
       setFoodInfos(nameData);
       setDrinksInfos(nameData);
     }

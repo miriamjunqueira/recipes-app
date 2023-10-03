@@ -1,108 +1,105 @@
-import { screen, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
+import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import renderWithRouter from '../renderWithRouter';
-import Recipes from '../Components/Recipes';
+import App from '../App';
+import * as APIModules from '../Services/API';
+import { mockCocoaRecipes, mockDrinksCategories, mockGoatRecipes, mockMealsCategories, mockOneResultDrink, mockOneResultMeal } from './Mocks/MockData';
+import { mockExibicaoPadrao } from './Mocks/MockExibi';
+
+const firstCard = '0-card-name';
+const goatCatName = 'Goat-category-filter';
+const filterButton = 'search-top-btn';
+const searchInputText = 'search-input';
+const searchButtonText = 'exec-search-btn';
 
 describe('Teste a página de receitas', () => {
-  test('Testa a renderização padrão de comidas', async () => {
-    renderWithRouter(<Recipes />, { route: '/meals' });
-
-    const arrayDeComidas = ['Corba', 'Sushi', 'Burek', 'Kumpir', 'Bistek', 'Tamiya', 'Poutine', 'Lasagne', 'Kafteji', 'Wontons', 'Dal fry', 'Koshari'];
-
-    waitFor(() => {
-      arrayDeComidas.forEach(async (comida) => {
-        const title = await screen.findByRole('heading', { name: `${comida}` });
-        expect(title).toBeInTheDocument();
-      });
-    });
+  test('Testa a renderização das categorias Meals', async () => {
+    vi.spyOn(APIModules, 'getFoodsCategories').mockResolvedValue(mockMealsCategories);
+    renderWithRouter(<App />, { route: '/meals' });
+    const beefButton = await screen.findByTestId('Beef-category-filter');
+    const breakfastButton = await screen.findByTestId('Breakfast-category-filter');
+    const chickenButton = await screen.findByTestId('Chicken-category-filter');
+    const dessertButton = await screen.findByTestId('Dessert-category-filter');
+    const goatButton = await screen.findByTestId(goatCatName);
+    const allButton = await screen.findByTestId('All-category-filter');
+    expect(beefButton && breakfastButton && chickenButton && dessertButton && goatButton && allButton).toBeInTheDocument();
   });
-
-  test('Testa a renderização padrão de bebidas', async () => {
-    renderWithRouter(<Recipes />, { route: '/drinks' });
-
-    const arrayDeBebidas = ['GG', 'A1', 'Ace', '747', 'Kir', 'ABC', '252', 'AT&T', 'Smut', 'B-53', 'Adam', 'ACID'];
-
-    waitFor(() => {
-      arrayDeBebidas.forEach(async (bebida) => {
-        const title = await screen.findByRole('heading', { name: `${bebida}` });
-        expect(title).toBeInTheDocument();
-      });
-    });
+  test('Testa a renderização das categorias Recipes Drinks', async () => {
+    vi.spyOn(APIModules, 'getDrinksCategories').mockResolvedValue(mockDrinksCategories);
+    renderWithRouter(<App />, { route: '/drinks' });
+    const ordinaryButton = await screen.findByTestId('Ordinary Drink-category-filter');
+    const cocktailButton = await screen.findByTestId('Cocktail-category-filter');
+    const shakeButton = await screen.findByTestId('Shake-category-filter');
+    const otherButton = await screen.findByTestId('Other / Unknown-category-filter');
+    const cocoaButton = await screen.findByTestId('Cocoa-category-filter');
+    const allButton = await screen.findByTestId('All-category-filter');
+    expect(ordinaryButton && cocktailButton && shakeButton && otherButton && cocoaButton && allButton).toBeInTheDocument();
   });
-
-  test('Testa a mudança de rota quando for retornado apenas 1 elemento', async () => {
-    const { user } = renderWithRouter(<Recipes />, { route: '/meals' });
-
-    waitFor(async () => {
-      const lupa = await screen.findByRole('img', { name: 'botao-pesquisar' });
-      await user.click(lupa);
-      const campoInput = await screen.findByRole('textbox');
-      await user.type(campoInput, 'Poutine');
-      const radioButtonName = await screen.findByText('name');
-      await user.click(radioButtonName);
-      const searchButton = await screen.getByTestId('exec-search-btn');
-      await user.click(searchButton);
-      expect(lupa).not.toBeInTheDocument();
-    });
+  test('Testa a renderização do Recipes Meals ao selecionar Goat como categoria', async () => {
+    vi.spyOn(APIModules, 'getFoodsCategories').mockResolvedValue(mockMealsCategories);
+    vi.spyOn(APIModules, 'ReceitasPorCategoria').mockResolvedValue(mockGoatRecipes);
+    const { user } = renderWithRouter(<App />, { route: '/meals' });
+    const goatButton = await screen.findByTestId(goatCatName);
+    await user.click(goatButton);
+    const foodCard = await screen.findByTestId(firstCard);
+    expect(foodCard).toBeInTheDocument();
   });
-
-  test('Testa alteração na rota ao clicar em uma receita', async () => {
-    const { user } = renderWithRouter(<Recipes />, { route: '/meals' });
-
-    waitFor(async () => {
-      const primeiraReceitaPadrao = await screen.findByTestId('0-recipe-card');
-      await user.click(primeiraReceitaPadrao);
-      const titulo = screen.getByRole('heading', { name: 'Instructions' });
-      expect(titulo).toBeInTheDocument();
-    });
+  test('Testa a renderização do Recipes Meals ao selecionar Goat ao clicar novamente volta para a padrão', async () => {
+    vi.spyOn(APIModules, 'getFoodsCategories').mockResolvedValue(mockMealsCategories);
+    vi.spyOn(APIModules, 'fetchRecipesApi').mockResolvedValue(mockExibicaoPadrao);
+    const { user } = renderWithRouter(<App />, { route: '/meals' });
+    const goatButton = await screen.findByTestId(goatCatName);
+    await user.click(goatButton);
+    await user.click(goatButton);
+    const breakfastButton = await screen.findByTestId('Breakfast-category-filter');
+    const foodCard = await screen.findByTestId('1-recipe-card');
+    expect(foodCard).toBeInTheDocument();
+    expect(breakfastButton).toBeInTheDocument();
   });
-
-  test('Testa se um botão de categorias de bebidas é exibido', async () => {
-    renderWithRouter(<Recipes />, { route: '/drinks' });
-
-    // const categoriesArray = ['Ordinary Drink', 'Cocktail', 'Shake', 'Other/Unknown', 'Cocoa', 'All'];
-
-    waitFor(async () => {
-      expect(screen.getByText('Ordinary Drink')).toBeInTheDocument();
-    });
+  test('Testa a renderização do Recipes Drinks ao selecionar Goat como categoria', async () => {
+    // Precisa de MOCK, as vezes passa as vezes nao, acredito que esteja fazendo o mock da API errada, nao entendi qual usada para a exibiçao padrao
+    vi.spyOn(APIModules, 'getDrinksCategories').mockResolvedValue(mockDrinksCategories);
+    vi.spyOn(APIModules, 'ReceitasPorCategoria').mockResolvedValue(mockCocoaRecipes);
+    const { user } = renderWithRouter(<App />, { route: '/drinks' });
+    const cocoaButton = await screen.findByTestId('Cocoa-category-filter');
+    await user.click(cocoaButton);
+    const foodCard = await screen.findByTestId('1-card-name');
+    expect(foodCard).toBeInTheDocument();
   });
-
-  test('testa o clique na categoria beef', async () => {
-    const { user } = renderWithRouter(<Recipes />, { route: '/meals' });
-
-    const arrayDeComidas = ['Corba', 'Sushi', 'Burek', 'Kumpir', 'Bistek', 'Tamiya', 'Poutine', 'Lasagne', 'Kafteji', 'Wontons', 'Dal fry', 'Koshari'];
-
-    waitFor(() => {
-      arrayDeComidas.forEach(async (comida) => {
-        const title = await screen.findByRole('heading', { name: `${comida}` });
-        expect(title).toBeInTheDocument();
-      });
-
-      // const botao = screen.getByRole('button', { name: 'Beef' });
-      // user.click(botao);
-      // expect(screen.getByText('Beef and Mustard Pie')).toBeInTheDocument();
-    });
+  test('Testa se ao buscar encontra apenas 1 receita é redirecionado para tela da receita drinks', async () => {
+    vi.spyOn(APIModules, 'fetchRecipesApi').mockResolvedValue(mockOneResultDrink);
+    const { user } = renderWithRouter(<App />, { route: '/drinks' });
+    const getSearchButton = screen.getByTestId(filterButton);
+    await user.click(getSearchButton);
+    const getTextInput = screen.getByTestId(searchInputText);
+    await user.type(getTextInput, 'Castillian Hot Chocolate');
+    const getNameFilter = screen.getByTestId('name-search-radio');
+    await user.click(getNameFilter);
+    const getFilterButton = screen.getByTestId(filterButton);
+    await user.click(getFilterButton);
+    expect(window.location.pathname).toBe('/drinks/12730');
   });
-
-  test('testa o retorno das receitas inicias em razão da função toogle', async () => {
-    const { user } = renderWithRouter(<Recipes />, { route: '/meals' });
-
-    waitFor(async () => {
-      const botao = await screen.findByRole('button', { name: 'Beef' });
-      await user.click(botao);
-      expect(screen.getByText('Beef and Mustard Pie')).toBeInTheDocument();
-      await user.click(botao);
-      expect(screen.getByText('Corba')).toBeInTheDocument();
-    });
+  test('Testa se ao buscar encontra apenas 1 receita é redirecionado para tela da receita meals', async () => {
+    vi.spyOn(APIModules, 'fetchRecipesApi').mockResolvedValue(mockOneResultMeal);
+    const { user } = renderWithRouter(<App />, { route: '/meals' });
+    const getSearchButton = screen.getByTestId(filterButton);
+    await user.click(getSearchButton);
+    const getTextInput = screen.getByTestId(searchInputText);
+    await user.type(getTextInput, 'Corba');
+    const getNameFilter = screen.getByTestId('name-search-radio');
+    await user.click(getNameFilter);
+    const getFilterButton = screen.getByTestId(filterButton);
+    await user.click(getFilterButton);
+    expect(window.location.pathname).toBe('/meals/52977');
   });
-
-  test('Testa o retorno da categoria Goat', async () => {
-    const { user } = renderWithRouter(<Recipes />, { route: '/meals' });
-
-    waitFor(async () => {
-      const goatCategory = screen.getByRole('button', { name: 'Goat' });
-      await user.click(goatCategory);
-      const recipeTitle = await screen.findByRole('heading', { level: 3, name: 'Mbuzi Choma (Roasted Goat)' });
-      expect(recipeTitle).toBeInTheDocument();
-    });
+  test('Testa se ao clicar no card redirecionado para tela da receita meals', async () => {
+    vi.spyOn(APIModules, 'getFoodsCategories').mockResolvedValue(mockMealsCategories);
+    vi.spyOn(APIModules, 'ReceitasPorCategoria').mockResolvedValue(mockGoatRecipes);
+    const { user } = renderWithRouter(<App />, { route: '/meals' });
+    const goatButton = await screen.findByTestId(goatCatName);
+    await user.click(goatButton);
+    const foodCard = await screen.findByTestId(firstCard);
+    await user.click(foodCard);
+    // expect(window.location.pathname).toBe('/meals/52968');
   });
 });

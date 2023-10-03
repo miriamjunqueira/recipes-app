@@ -55,11 +55,7 @@ export default function Recipes() {
 
   async function handleClick(event: any) {
     event.preventDefault();
-
     const categoria = event.target.id;
-    console.log('categoria:');
-    console.log(categoria);
-
     let retorno: MealsType[] | DrinksType[] = [];
     if (pathname === '/meals') {
       retorno = await ReceitasPorCategoria(
