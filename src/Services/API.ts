@@ -10,13 +10,11 @@ export async function fetchRecipesApi(
     const response = await fetch(API_URL);
     const data = await response.json();
     const result = await data;
-    console.log(result.meals);
     if (pathName === '/meals' && result.meals === null) {
       window.alert(alertText);
       return [];
     }
     if (pathName === '/drinks' && result.drinks === null) {
-      window.alert(alertText);
       return [];
     }
     if (pathName === '/meals') {
@@ -75,7 +73,6 @@ export async function ReceitasPorCategoria(
   const resultado = result[kind];
   const primeiras12 = resultado.slice(0, 12);
   console.log(primeiras12);
-
   return primeiras12;
 }
 export const fetchRecommendations = async (path: string) => {
@@ -93,6 +90,5 @@ export async function fetchRecipesDetailsApi(
   const response = await fetch(API_URL);
   const data = await response.json();
   const result = await data;
-  console.log(result);
   return result;
 }
