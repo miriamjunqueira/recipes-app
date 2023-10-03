@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import fetchRecipesDetailsApi from '../../Services/RecipeDetailsAPI';
+import { fetchRecipesDetailsApi } from '../../Services/API';
 import { DrinksType, MealsType, MixedType } from '../../Context/UserContext';
 import Loading from '../../Components/Loading';
 import './RecipeDetails.css';

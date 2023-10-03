@@ -10,7 +10,7 @@ export async function fetchRecipesApi(
     const response = await fetch(API_URL);
     const data = await response.json();
     const result = await data;
-
+    console.log(result.meals);
     if (pathName === '/meals' && result.meals === null) {
       window.alert(alertText);
       return [];
@@ -44,13 +44,10 @@ export async function getAllDrinks() {
 export async function getFoodsCategories() {
   const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
   const data = await response.json();
-
   const chaves = (data.meals).map((comida: any) => {
     return comida.strCategory;
   });
-
   const primeiras5 = chaves.slice(0, 5);
-
   return primeiras5;
 }
 
@@ -62,7 +59,6 @@ export async function getDrinksCategories() {
     return bebida.strCategory;
   });
   const primeiras5 = chaves.slice(0, 5);
-
   return primeiras5;
 }
 
@@ -78,6 +74,8 @@ export async function ReceitasPorCategoria(
   const result = await data;
   const resultado = result[kind];
   const primeiras12 = resultado.slice(0, 12);
+  console.log(primeiras12);
+
   return primeiras12;
 }
 export const fetchRecommendations = async (path: string) => {
@@ -87,3 +85,14 @@ export const fetchRecommendations = async (path: string) => {
     : data.drinks.slice(0, 6);
   return sixRecomendations;
 };
+export async function fetchRecipesDetailsApi(
+  path: string,
+  recipeId?: string,
+) {
+  const API_URL = `https://www.${path}.com/api/json/v1/1/lookup.php?i=${recipeId}`;
+  const response = await fetch(API_URL);
+  const data = await response.json();
+  const result = await data;
+  console.log(result);
+  return result;
+}
