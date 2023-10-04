@@ -6,6 +6,7 @@ import Loading from '../../Components/Loading';
 import './RecipeDetails.css';
 import RecommendationCard from '../../Components/RecomendationCard/RecomendationCard';
 import FavoriteButton from './FavoriteButton';
+import ShareButton from '../../Components/ShareButton';
 
 export default function RecipeDetails() {
   const [loading, setLoading] = useState(true);
@@ -16,6 +17,7 @@ export default function RecipeDetails() {
   const { id } = useParams();
   const witchPath = pathname.includes('meals');
   const path = witchPath ? 'themealdb' : 'thecocktaildb';
+  const shareButtonTestID = 'share-btn';
 
   const navigate = useNavigate();
 
@@ -139,18 +141,14 @@ export default function RecipeDetails() {
               />
             </div>)}
           <div>
-            <button
-              data-testid="share-btn"
-              onClick={ handleShareButton }
-            >
-              <img src="../src/images/shareIcon.svg" alt="Botão de compartilhar" />
-            </button>
+            <ShareButton pathname={ pathname } testId={ shareButtonTestID } />
             <FavoriteButton recipeDetail={ recipeDetail[0] } />
             <RecommendationCard />
           </div>
           {!isRecipeDone && (
             <div>
               <button
+                className="start-button"
                 type="submit"
                 data-testid="start-recipe-btn"
                 onClick={ handleClick }

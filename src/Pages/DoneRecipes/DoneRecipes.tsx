@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ShareButton from '../../Components/ShareButton';
 
 type DoneRecipe = {
   id: string,
@@ -79,20 +80,18 @@ export default function DoneRecipes() {
               width={ 80 }
             />
             <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
-            <button>
-              <img
-                src="../images/shareIcon.svg"
-                alt="Botão de compartilhar a receita"
-                data-testid={ `${index}-horizontal-share-btn` }
-              />
-            </button>
+            <ShareButton
+              pathname={ `/${recipe.type}s/${recipe.id}` }
+              testId={ `${index}-horizontal-share-btn` }
+            />
             {recipe.tags && recipe.tags.map((tag, i) => (
-              <span
-                data-testid={ `${index}-${tag}-horizontal-tag` }
-                key={ i }
-              >
-                {tag}
-              </span>
+              <div key={ i }>
+                <span
+                  data-testid={ `${index}-${tag}-horizontal-tag` }
+                >
+                  {tag}
+                </span>
+              </div>
             ))}
           </div>
         ))}
