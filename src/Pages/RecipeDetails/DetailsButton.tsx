@@ -7,10 +7,16 @@ export default function DetailsButton() {
   const navigate = useNavigate();
 
   const inProgressRecipesString = localStorage.getItem('inProgressRecipes');
+
+  console.log('inProgressRecipesString');
+  console.log(inProgressRecipesString);
+
   const getInProgressInfo = inProgressRecipesString
     ? JSON.parse(inProgressRecipesString) : {};
+
   const inProgressMeals = Object.keys(getInProgressInfo.meals || {})
     .includes(id as string);
+
   const inProgressDrinks = Object.keys(getInProgressInfo.drinks || {})
     .includes(id as string);
 

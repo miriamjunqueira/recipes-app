@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { fetchRecipesDetailsApi } from '../../Services/API';
 import { DrinksType, MealsType, MixedType } from '../../Context/UserContext';
 import Loading from '../../Components/Loading';
@@ -18,6 +18,8 @@ export default function RecipeDetails() {
   const witchPath = pathname.includes('meals');
   const path = witchPath ? 'themealdb' : 'thecocktaildb';
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const getAPIData = async () => {
       const getRecipeDetails: { meals: MealsType[],
@@ -35,19 +37,29 @@ export default function RecipeDetails() {
     };
     getAPIData();
   }, [id, path, pathname]);
+
+  console.log('recipe detail:');
+  console.log(recipeDetail);
+
   const getIngredients = (recipeDetails: MixedType[]) => {
     const recipeValues = recipeDetails.length > 0 && recipeDetails !== null
       ? Object.entries(recipeDetails[0])
       : [];
+
+    console.log('recipe values:');
+    console.log(recipeValues);
+
     const ingredientsValues: string[] = recipeValues.filter((ing) => ing[0]
       .startsWith(('strIngredient')) && ing[1] !== null
         && ing[1] !== '').map((ingName) => ingName[1]);
     setIngredients(ingredientsValues);
+
     const measuresValues = recipeValues.filter((measure) => measure[0]
       .startsWith(('strMeasure')) && measure[1] !== null
       && measure[1] !== '').map((measureName) => measureName[1]);
     setMeasures(measuresValues);
   };
+
   const getDoneRecipesInfo = JSON
     .parse(localStorage.getItem('doneRecipes') || '[]');
   const isRecipeDone = getDoneRecipesInfo
@@ -66,6 +78,10 @@ export default function RecipeDetails() {
         console.error('Erro ao copiar o link: ', err);
       });
   };
+
+  function handleClick() {
+    navigate('in-progress');
+  }
 
   return (
     <div>
@@ -135,7 +151,13 @@ export default function RecipeDetails() {
           </div>
           {!isRecipeDone && (
             <div>
-              <DetailsButton />
+              <button
+                type="submit"
+                data-testid="start-recipe-btn"
+                onClick={ handleClick }
+              >
+                Start Recipe
+              </button>
             </div>
           )}
         </div>)}
