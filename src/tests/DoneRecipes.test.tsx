@@ -3,9 +3,11 @@ import renderWithRouter from '../renderWithRouter';
 import App from '../App';
 import { mockDoneRecipes } from './Mocks/MockDoneRecipes';
 
+const rota = '/done-recipes';
+
 describe('Teste a página Done Recipes', () => {
   test('Testa a renderização dos botões de filtro', () => {
-    renderWithRouter(<App />, { route: '/done-recipes' });
+    renderWithRouter(<App />, { route: rota });
     const filterAll = screen.getByTestId('filter-by-all-btn');
     const filterMeals = screen.getByTestId('filter-by-meal-btn');
     const filterDrinks = screen.getByTestId('filter-by-drink-btn');
@@ -14,7 +16,7 @@ describe('Teste a página Done Recipes', () => {
   });
   test('Testa a funcionalidade dos botões de filtro', async () => {
     window.localStorage.setItem('doneRecipes', JSON.stringify(mockDoneRecipes));
-    const { user } = renderWithRouter(<App />, { route: '/done-recipes' });
+    const { user } = renderWithRouter(<App />, { route: rota });
     const filterAll = screen.getByTestId('filter-by-all-btn');
     const filterMeals = screen.getByTestId('filter-by-meal-btn');
     const filterDrinks = screen.getByTestId('filter-by-drink-btn');
@@ -32,7 +34,7 @@ describe('Teste a página Done Recipes', () => {
   });
   test('Testa se ao clicar no nome redireciona para pagina de detalhes', async () => {
     window.localStorage.setItem('doneRecipes', JSON.stringify(mockDoneRecipes));
-    const { user } = renderWithRouter(<App />, { route: '/done-recipes' });
+    const { user } = renderWithRouter(<App />, { route: rota });
     const getRecipeTitle = screen.getByTestId('0-horizontal-name');
     await user.click(getRecipeTitle);
     expect(window.location.pathname).toBe('/meals/52771');
