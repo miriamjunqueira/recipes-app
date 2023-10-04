@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { fetchRecipesDetailsApi } from '../../Services/API';
 import { DrinksType, MealsType, MixedType } from '../../Context/UserContext';
 import Loading from '../../Components/Loading';
 import './RecipeDetails.css';
 import RecommendationCard from '../../Components/RecomendationCard/RecomendationCard';
-import DetailsButton from './DetailsButton';
 import FavoriteButton from './FavoriteButton';
+import ShareButton from '../../Components/ShareButton';
+import DetailsButton from './DetailsButton';
 
 export default function RecipeDetails() {
   const [loading, setLoading] = useState(true);
@@ -17,8 +18,7 @@ export default function RecipeDetails() {
   const { id } = useParams();
   const witchPath = pathname.includes('meals');
   const path = witchPath ? 'themealdb' : 'thecocktaildb';
-
-  const navigate = useNavigate();
+  const shareButtonTestID = 'share-btn';
 
   useEffect(() => {
     const getAPIData = async () => {
@@ -38,16 +38,10 @@ export default function RecipeDetails() {
     getAPIData();
   }, [id, path, pathname]);
 
-  console.log('recipe detail:');
-  console.log(recipeDetail);
-
   const getIngredients = (recipeDetails: MixedType[]) => {
     const recipeValues = recipeDetails.length > 0 && recipeDetails !== null
       ? Object.entries(recipeDetails[0])
       : [];
-
-    console.log('recipe values:');
-    console.log(recipeValues);
 
     const ingredientsValues: string[] = recipeValues.filter((ing) => ing[0]
       .startsWith(('strIngredient')) && ing[1] !== null
@@ -64,24 +58,6 @@ export default function RecipeDetails() {
     .parse(localStorage.getItem('doneRecipes') || '[]');
   const isRecipeDone = getDoneRecipesInfo
     .some((recipe: any) => recipe.id === id);
-
-  const handleShareButton = () => {
-    navigator.clipboard.writeText(`http://localhost:3000${pathname}`)
-      .then(() => {
-        const messageElement = document.createElement('div');
-        messageElement.innerHTML = 'Link copied!';
-        document.body.appendChild(messageElement);
-        setTimeout(() => {
-          document.body.removeChild(messageElement);
-        }, 2000);
-      }).catch((err) => {
-        console.error('Erro ao copiar o link: ', err);
-      });
-  };
-
-  function handleClick() {
-    navigate('in-progress');
-  }
 
   return (
     <div>
@@ -140,25 +116,12 @@ export default function RecipeDetails() {
               />
             </div>)}
           <div>
-            <button
-              data-testid="share-btn"
-              onClick={ handleShareButton }
-            >
-              <img src="../src/images/shareIcon.svg" alt="Botão de compartilhar" />
-            </button>
+            <ShareButton pathname={ pathname } testId={ shareButtonTestID } />
             <FavoriteButton recipeDetail={ recipeDetail[0] } />
             <RecommendationCard />
           </div>
           {!isRecipeDone && (
-            <div>
-              <button
-                type="submit"
-                data-testid="start-recipe-btn"
-                onClick={ handleClick }
-              >
-                Start Recipe
-              </button>
-            </div>
+            <DetailsButton />
           )}
         </div>)}
     </div>
