@@ -29,6 +29,15 @@ export default function Recipes() {
     }
     buscaCategorias();
 
+    if (pathname === '/meals' && foodInfos.length === 1) {
+      navigate(`${pathname}/${foodInfos[0].idMeal}`);
+      return;
+    }
+    if (pathname === '/drinks' && drinksInfos.length === 1) {
+      navigate(`${pathname}/${foodInfos[0].idDrink}`);
+      return;
+    }
+
     // Renderização inicial:
     if (pathname === '/meals') {
       setRecipesToDisplay(foodInfos.slice(0, 12));
@@ -37,7 +46,7 @@ export default function Recipes() {
       setRecipesToDisplay(drinksInfos.slice(0, 12));
       setExibicaoPadrao(drinksInfos.slice(0, 12));
     }
-  }, [foodInfos, drinksInfos, pathname]);
+  }, [foodInfos, drinksInfos, pathname, navigate]);
 
   if (pathname === '/meals') {
     categoriasExibicao = foodCategories;
@@ -46,12 +55,6 @@ export default function Recipes() {
   }
 
   // Retorno de um único elemento:
-  if (pathname === '/meals' && foodInfos.length === 1) {
-    navigate(`${pathname}/${foodInfos[0].idMeal}`);
-  }
-  if (pathname === '/drinks' && drinksInfos.length === 1) {
-    navigate(`${pathname}/${foodInfos[0].idDrink}`);
-  }
 
   async function handleClick(event: any) {
     event.preventDefault();
@@ -137,13 +140,13 @@ export default function Recipes() {
               alt={ `foto sobre ${recipe.strMeal}` }
               width={ 80 }
             />
-            <a
+            {/* <a
               href={ `/meals/${recipe.idMeal}` }
               className="btn btn-primary"
               id="details-btn"
             >
               Detalhes
-            </a>
+            </a> */}
           </div>
         ))}
 
