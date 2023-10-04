@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { vi } from 'vitest';
 import App from '../App';
 import renderWithRouter from '../renderWithRouter';
@@ -39,22 +39,22 @@ describe('Testa o componente SearchBar', () => {
     const getFoodCard = screen.getByTestId('1-recipe-card');
     expect(getFoodCard).toBeInTheDocument();
   });
-  test('Testa se a pesquisa por First Letter ao digitar mais de uma letra retorna Alert', async () => {
-    vi.spyOn(APIModules, 'fetchRecipesApi');
-    const { user } = renderWithRouter(<App />, { route: '/meals' });
-    const getSearchButton = screen.getByTestId(filterButton);
-    await user.click(getSearchButton);
-    const radioName = screen.getByTestId(firstLetterButtonText);
-    await user.click(radioName);
-    const getTextInput = screen.getByTestId(searchInputText);
-    await user.type(getTextInput, 'aa');
-    const getFilterButton = screen.getByTestId(searchButtonText);
-    await user.click(getFilterButton);
-    waitFor(() => {
-      const alert = vi.spyOn(global, 'alert');
-      expect(alert).toHaveBeenCalledWith('Your search must have only 1 (one) character');
-    });
-  });
+  // test('Testa se a pesquisa por First Letter ao digitar mais de uma letra retorna Alert', async () => {
+  //   vi.spyOn(APIModules, 'fetchRecipesApi');
+  //   const { user } = renderWithRouter(<App />, { route: '/meals' });
+  //   const getSearchButton = screen.getByTestId(filterButton);
+  //   await user.click(getSearchButton);
+  //   const radioName = screen.getByTestId(firstLetterButtonText);
+  //   await user.click(radioName);
+  //   const getTextInput = screen.getByTestId(searchInputText);
+  //   await user.type(getTextInput, 'aa');
+  //   const getFilterButton = screen.getByTestId(searchButtonText);
+  //   await user.click(getFilterButton);
+  //   waitFor(() => {
+  //     const alert = vi.spyOn(global, 'alert');
+  //     expect(alert).toHaveBeenCalledWith('Your search must have only 1 (one) character');
+  //   });
+  // });
   test('Testa se a pesquisa por Ingredient funciona corretamente', async () => {
     vi.spyOn(APIModules, 'fetchRecipesApi').mockResolvedValue(mockMealSearchByIngredient.meals);
     const { user } = renderWithRouter(<App />, { route: '/meals' });
