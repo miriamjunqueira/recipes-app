@@ -3,15 +3,17 @@ import { useParams, useLocation } from 'react-router-dom';
 import { DrinksType, MealsType } from '../../Context/UserContext';
 import { fetchRecipesDetailsApi } from '../../Services/API';
 import FavoriteButton from '../RecipeDetails/FavoriteButton';
+import './RecipesInProgress.css';
 
 export default function RecipesInProgress() {
   const { pathname } = useLocation();
 
   const { id } = useParams();
 
-  const [arrayDeIngredientes, setArrayDeIngredientes] = useState([]);
-  const [arrayDeMedidas, setArrayDeMedidas] = useState([]);
+  const [arrayDeIngredientes, setArrayDeIngredientes] = useState<string[]>([]);
+  const [arrayDeMedidas, setArrayDeMedidas] = useState<any[]>([]);
   const [receita, setReceita] = useState<any>({});
+  const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
 
   useEffect(() => {
     const getAPIData = async () => {
@@ -39,8 +41,19 @@ export default function RecipesInProgress() {
       const ingredientsValues: string[] = ingredients.map((ingredient) => {
         return ingredient[1];
       });
-      // console.log(ingredientsValues);
       setArrayDeIngredientes(ingredientsValues);
+
+      // config de partida:
+      const vetTemporario: string[] = [];
+      ingredientsValues.forEach((ingredient, index) => {
+        vetTemporario[index] = 'nao';
+      });
+      setSelectedIngredients(vetTemporario);
+      // localStorage.setItem('inProgressRecipes', JSON.stringify(vetTemporario));
+
+      // Atualiza conforme localStorage:
+      const storedArray = localStorage.getItem('inProgressRecipes');
+      setSelectedIngredients(JSON.parse(storedArray));
 
       const measures = chavesValores.filter((mesure) => {
         return mesure[0].startsWith('strMeasure')
@@ -50,7 +63,6 @@ export default function RecipesInProgress() {
       const mesuresValues = measures.map((mesure) => {
         return mesure[1];
       });
-        // console.log(mesureValues);
       setArrayDeMedidas(mesuresValues);
     };
     getAPIData();
@@ -69,6 +81,22 @@ export default function RecipesInProgress() {
         console.error('Erro ao copiar o link: ', err);
       });
   };
+
+  function confereClick(event: any) {
+    const checkbox = event.target.value;
+    const clicou = event.target.checked;
+
+    const novoSelectedIngredients = [...selectedIngredients];
+    if (clicou) {
+      novoSelectedIngredients[checkbox] = 'sim';
+    } else {
+      novoSelectedIngredients[checkbox] = 'nao';
+    }
+    setSelectedIngredients(novoSelectedIngredients);
+
+    // Salvando seleções no localStorage:
+    localStorage.setItem('inProgressRecipes', JSON.stringify(novoSelectedIngredients));
+  }
 
   return (
     <div>
@@ -135,31 +163,36 @@ export default function RecipesInProgress() {
         </div>
       )}
 
-      {arrayDeIngredientes.map((ingrediente, index) => (
-        <div
-          key={ index }
-        >
+      <div>
 
-          <ul className="list-group">
-            <li className="list-group-item">
+        <ul className="list-group">
+          {arrayDeIngredientes.map((ingrediente, index) => (
+            <li
+              className="list-group-item"
+              key={ index }
+            >
               <label
                 data-testid={ `${index}-ingredient-step` }
+                className={ `${selectedIngredients[index]}` }
               >
                 <input
                   className="form-check-input me-1"
                   type="checkbox"
-                  value=""
+                  value={ index }
                   aria-label="..."
                   data-testid="ingredient-step"
+                  id={ `${selectedIngredients[index]} form-check-input me-1` }
+                  checked={ selectedIngredients[index] === 'sim' }
+                  onClick={ confereClick }
                 />
                 {ingrediente}
                 {' - '}
                 {arrayDeMedidas[index]}
               </label>
             </li>
-          </ul>
-        </div>
-      ))}
+          ))}
+        </ul>
+      </div>
 
       <div data-testid="instructions">
         <h5>Method of preparation:</h5>
