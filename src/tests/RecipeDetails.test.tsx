@@ -30,7 +30,7 @@ describe('Testa a pagina de Detalhes da Receita', () => {
     await waitForElementToBeRemoved(screen.getByText('Loading'));
     const getStartRecipeButton = screen.getByRole('button', { name: 'Start Recipe' });
     await user.click(getStartRecipeButton);
-    const inProgressText = screen.getByText(/RecipesInProgress/i);
+    const inProgressText = screen.getByText(/Recipe In Progress/i);
     expect(inProgressText).toBeInTheDocument();
   });
   test('Teste se ao clicar no botao de compartilhar a mensagem Link Copied aparece na tela', async () => {

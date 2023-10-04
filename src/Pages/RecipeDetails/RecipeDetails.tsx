@@ -7,6 +7,7 @@ import './RecipeDetails.css';
 import RecommendationCard from '../../Components/RecomendationCard/RecomendationCard';
 import FavoriteButton from './FavoriteButton';
 import ShareButton from '../../Components/ShareButton';
+import DetailsButton from './DetailsButton';
 
 export default function RecipeDetails() {
   const [loading, setLoading] = useState(true);
@@ -39,16 +40,10 @@ export default function RecipeDetails() {
     getAPIData();
   }, [id, path, pathname]);
 
-  console.log('recipe detail:');
-  console.log(recipeDetail);
-
   const getIngredients = (recipeDetails: MixedType[]) => {
     const recipeValues = recipeDetails.length > 0 && recipeDetails !== null
       ? Object.entries(recipeDetails[0])
       : [];
-
-    console.log('recipe values:');
-    console.log(recipeValues);
 
     const ingredientsValues: string[] = recipeValues.filter((ing) => ing[0]
       .startsWith(('strIngredient')) && ing[1] !== null
@@ -65,24 +60,7 @@ export default function RecipeDetails() {
     .parse(localStorage.getItem('doneRecipes') || '[]');
   const isRecipeDone = getDoneRecipesInfo
     .some((recipe: any) => recipe.id === id);
-
-  const handleShareButton = () => {
-    navigator.clipboard.writeText(`http://localhost:3000${pathname}`)
-      .then(() => {
-        const messageElement = document.createElement('div');
-        messageElement.innerHTML = 'Link copied!';
-        document.body.appendChild(messageElement);
-        setTimeout(() => {
-          document.body.removeChild(messageElement);
-        }, 2000);
-      }).catch((err) => {
-        console.error('Erro ao copiar o link: ', err);
-      });
-  };
-
-  function handleClick() {
-    navigate('in-progress');
-  }
+  console.log(isRecipeDone);
 
   return (
     <div>
@@ -146,16 +124,7 @@ export default function RecipeDetails() {
             <RecommendationCard />
           </div>
           {!isRecipeDone && (
-            <div>
-              <button
-                className="start-button"
-                type="submit"
-                data-testid="start-recipe-btn"
-                onClick={ handleClick }
-              >
-                Start Recipe
-              </button>
-            </div>
+            <DetailsButton />
           )}
         </div>)}
     </div>
