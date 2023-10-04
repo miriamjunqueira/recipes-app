@@ -15,44 +15,39 @@ type DoneRecipe = {
 type LocalStorageDoneType = DoneRecipe[];
 
 export default function DoneRecipes() {
-  // const newRecipeDone = [{
-  //   id: 'id - da - receita',
-  //   type: 'meal - ou - drink',
-  //   nationality: 'nacionalidade - da - receita - ou - texto - vazio',
-  //   category: 'categoria - da - receita - ou - texto - vazio',
-  //   alcoholicOrNot: 'alcoholic - ou - non - alcoholic - ou - texto - vazio',
-  //   name: 'nome - da - receita',
-  //   image: 'imagem - da - receita',
-  //   doneDate: 'quando - a - receita - foi - concluida',
-  //   tags: [],
-  // }];
-  // const newRecipeDoneJSON = JSON.stringify(newRecipeDone);
-  // localStorage.setItem('doneRecipes', newRecipeDoneJSON);
-  // [{  MODELO DO LOCALSTORAGE
-  //     id: id-da-receita,
-  //     type: meal-ou-drink,
-  //     nationality: nacionalidade-da-receita-ou-texto-vazio,
-  //     category: categoria-da-receita-ou-texto-vazio,
-  //     alcoholicOrNot: alcoholic-ou-non-alcoholic-ou-texto-vazio,
-  //     name: nome-da-receita,
-  //     image: imagem-da-receita,
-  //     doneDate: quando-a-receita-foi-concluida,
-  //     tags: array-de-tags-da-receita-ou-array-vazio
-  // }]
   const [doneRecipes, setDoneRecipes] = useState<LocalStorageDoneType>([]);
+  const [filters, setFilters] = useState('All');
   useEffect(() => {
     const savedDoneRecipesJSON = localStorage.getItem('doneRecipes') ?? '[]';
     const savedDoneRecipes = JSON.parse(savedDoneRecipesJSON);
     setDoneRecipes(savedDoneRecipes);
   }, []);
 
+  const typeOfFilter = filters === 'All' ? doneRecipes
+    : doneRecipes.filter((recipe) => recipe.type === filters);
+
   return (
     <div>
-      <button data-testid="filter-by-all-btn">All</button>
-      <button data-testid="filter-by-meal-btn">Meals</button>
-      <button data-testid="filter-by-drink-btn">Drinks</button>
+      <button
+        data-testid="filter-by-all-btn"
+        onClick={ () => setFilters('All') }
+      >
+        All
+      </button>
+      <button
+        data-testid="filter-by-meal-btn"
+        onClick={ () => setFilters('meal') }
+      >
+        Meals
+      </button>
+      <button
+        data-testid="filter-by-drink-btn"
+        onClick={ () => setFilters('drink') }
+      >
+        Drinks
+      </button>
       <div>
-        {doneRecipes.map((recipe, index) => (
+        {typeOfFilter.map((recipe, index) => (
           <div key={ index }>
             {recipe.type === 'meal' ? (
               <div>

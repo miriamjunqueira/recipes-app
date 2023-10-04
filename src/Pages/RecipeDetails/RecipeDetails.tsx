@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { fetchRecipesDetailsApi } from '../../Services/API';
 import { DrinksType, MealsType, MixedType } from '../../Context/UserContext';
 import Loading from '../../Components/Loading';
@@ -19,8 +19,6 @@ export default function RecipeDetails() {
   const witchPath = pathname.includes('meals');
   const path = witchPath ? 'themealdb' : 'thecocktaildb';
   const shareButtonTestID = 'share-btn';
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getAPIData = async () => {
@@ -60,7 +58,6 @@ export default function RecipeDetails() {
     .parse(localStorage.getItem('doneRecipes') || '[]');
   const isRecipeDone = getDoneRecipesInfo
     .some((recipe: any) => recipe.id === id);
-  console.log(isRecipeDone);
 
   return (
     <div>

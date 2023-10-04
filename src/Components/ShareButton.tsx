@@ -21,10 +21,13 @@ export default function ShareButton({ pathname, testId }: ShareButtonProps) {
   };
   return (
     <button
-      data-testid={ testId }
       onClick={ handleShareButton }
     >
-      <img src="../src/images/shareIcon.svg" alt="Botão de compartilhar" />
+      <img
+        data-testid={ testId }
+        src="../src/images/shareIcon.svg"
+        alt="Botão de compartilhar"
+      />
     </button>
   );
 }
