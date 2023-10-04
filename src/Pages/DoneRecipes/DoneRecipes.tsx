@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import ShareButton from '../../Components/ShareButton';
 
 type DoneRecipe = {
@@ -22,7 +23,7 @@ export default function DoneRecipes() {
     const savedDoneRecipes = JSON.parse(savedDoneRecipesJSON);
     setDoneRecipes(savedDoneRecipes);
   }, []);
-
+  // Faço o filtro para os botoes e caso clique no all volta para tudo
   const typeOfFilter = filters === 'All' ? doneRecipes
     : doneRecipes.filter((recipe) => recipe.type === filters);
 
@@ -51,29 +52,36 @@ export default function DoneRecipes() {
           <div key={ index }>
             {recipe.type === 'meal' ? (
               <div>
-                <h3 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h3>
+                <Link to={ `/${recipe.type}s/${recipe.id}` }>
+                  <h3 data-testid={ `${index}-horizontal-name` }>
+                    {recipe.name}
+                  </h3>
+                </Link>
                 <h5 data-testid={ `${index}-horizontal-top-text` }>
                   {`${recipe.nationality} - ${recipe.category}`}
                 </h5>
               </div>
             ) : (
               <div>
-                <h3 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h3>
+                <Link to={ `/${recipe.type}s/${recipe.id}` }>
+                  <h3 data-testid={ `${index}-horizontal-name` }>
+                    {recipe.name}
+                  </h3>
+                </Link>
                 <h5 data-testid={ `${index}-horizontal-top-text` }>
-                  {`${recipe.nationality} - ${recipe.category}`}
+                  {`${recipe.nationality} - 
+                  ${recipe.category} - ${recipe.alcoholicOrNot}`}
                 </h5>
               </div>
             )}
-            <h3 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h3>
-            <h5 data-testid={ `${index}-horizontal-top-text` }>
-              {`${recipe.nationality} - ${recipe.category} - ${recipe.alcoholicOrNot}`}
-            </h5>
-            <img
-              data-testid={ `${index}-horizontal-image` }
-              src={ recipe.image }
-              alt={ recipe.name }
-              width={ 80 }
-            />
+            <Link to={ `/${recipe.type}s/${recipe.id}` }>
+              <img
+                data-testid={ `${index}-horizontal-image` }
+                src={ recipe.image }
+                alt={ recipe.name }
+                width={ 80 }
+              />
+            </Link>
             <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
             <ShareButton
               pathname={ `/${recipe.type}s/${recipe.id}` }
