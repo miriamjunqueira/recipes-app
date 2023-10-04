@@ -91,8 +91,6 @@ export default function RecipesInProgress() {
     setSelectedIngredients(novoSelectedIngredients);
   }
 
-  // console.log(arrayDeIngredientes);
-
   return (
     <div>
       <div>
