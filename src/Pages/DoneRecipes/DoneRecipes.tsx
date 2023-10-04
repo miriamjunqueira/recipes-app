@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 type DoneRecipe = {
   id: string,
-  type: 'meal ' | 'drink',
+  type: 'meal' | 'drink',
   nationality: string,
   category: string,
   alcoholicOrNot: string,
@@ -53,15 +53,39 @@ export default function DoneRecipes() {
       <div>
         {doneRecipes.map((recipe, index) => (
           <div key={ index }>
+            {recipe.type === 'meal' ? (
+              <div>
+                <h3 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h3>
+                <h5 data-testid={ `${index}-horizontal-top-text` }>
+                  {`${recipe.nationality} - ${recipe.category}`}
+                </h5>
+              </div>
+            ) : (
+              <div>
+                <h3 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h3>
+                <h5 data-testid={ `${index}-horizontal-top-text` }>
+                  {`${recipe.nationality} - ${recipe.category}`}
+                </h5>
+              </div>
+            )}
             <h3 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h3>
-            <h5 data-testid={ `${index}-horizontal-top-text` }>{recipe.category}</h5>
+            <h5 data-testid={ `${index}-horizontal-top-text` }>
+              {`${recipe.nationality} - ${recipe.category} - ${recipe.alcoholicOrNot}`}
+            </h5>
             <img
               data-testid={ `${index}-horizontal-image` }
               src={ recipe.image }
               alt={ recipe.name }
+              width={ 80 }
             />
             <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
-            <p data-testid={ `${index}-horizontal-share-btn` }>Compartilhar</p>
+            <button>
+              <img
+                src="../images/shareIcon.svg"
+                alt="Botão de compartilhar a receita"
+                data-testid={ `${index}-horizontal-share-btn` }
+              />
+            </button>
             {recipe.tags && recipe.tags.map((tag, i) => (
               <span
                 data-testid={ `${index}-${tag}-horizontal-tag` }
