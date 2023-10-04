@@ -5,7 +5,6 @@ import { DrinksType, MealsType, MixedType } from '../../Context/UserContext';
 import Loading from '../../Components/Loading';
 import './RecipeDetails.css';
 import RecommendationCard from '../../Components/RecomendationCard/RecomendationCard';
-import DetailsButton from './DetailsButton';
 import FavoriteButton from './FavoriteButton';
 
 export default function RecipeDetails() {
