@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import { DrinksType, MealsType, MixedType } from '../../Context/UserContext';
+import { DrinksType, MealsType } from '../../Context/UserContext';
 import { fetchRecipesDetailsApi } from '../../Services/API';
 import FavoriteButton from '../RecipeDetails/FavoriteButton';
 

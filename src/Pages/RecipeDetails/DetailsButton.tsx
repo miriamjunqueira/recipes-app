@@ -8,9 +8,6 @@ export default function DetailsButton() {
 
   const inProgressRecipesString = localStorage.getItem('inProgressRecipes');
 
-  console.log('inProgressRecipesString');
-  console.log(inProgressRecipesString);
-
   const getInProgressInfo = inProgressRecipesString
     ? JSON.parse(inProgressRecipesString) : {};
 
