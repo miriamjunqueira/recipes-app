@@ -49,6 +49,11 @@ export default function RecipesInProgress() {
         vetTemporario[index] = 'nao';
       });
       setSelectedIngredients(vetTemporario);
+      // localStorage.setItem('inProgressRecipes', JSON.stringify(vetTemporario));
+
+      // Atualiza conforme localStorage:
+      const storedArray = localStorage.getItem('inProgressRecipes');
+      setSelectedIngredients(JSON.parse(storedArray));
 
       const measures = chavesValores.filter((mesure) => {
         return mesure[0].startsWith('strMeasure')
@@ -58,7 +63,6 @@ export default function RecipesInProgress() {
       const mesuresValues = measures.map((mesure) => {
         return mesure[1];
       });
-        // console.log(mesureValues);
       setArrayDeMedidas(mesuresValues);
     };
     getAPIData();
@@ -89,6 +93,9 @@ export default function RecipesInProgress() {
       novoSelectedIngredients[checkbox] = 'nao';
     }
     setSelectedIngredients(novoSelectedIngredients);
+
+    // Salvando seleções no localStorage:
+    localStorage.setItem('inProgressRecipes', JSON.stringify(novoSelectedIngredients));
   }
 
   return (
@@ -175,6 +182,7 @@ export default function RecipesInProgress() {
                   aria-label="..."
                   data-testid="ingredient-step"
                   id={ `${selectedIngredients[index]} form-check-input me-1` }
+                  checked={ selectedIngredients[index] === 'sim' }
                   onClick={ confereClick }
                 />
                 {ingrediente}
