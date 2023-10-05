@@ -5,9 +5,9 @@ import { DrinksType, MealsType, MixedType } from '../../Context/UserContext';
 import Loading from '../../Components/Loading';
 import './RecipeDetails.css';
 import RecommendationCard from '../../Components/RecomendationCard/RecomendationCard';
-import FavoriteButton from './FavoriteButton';
-import ShareButton from '../../Components/ShareButton';
-import DetailsButton from './DetailsButton';
+import FavoriteButton from '../../Components/Buttons/FavoriteButton';
+import ShareButton from '../../Components/Buttons/ShareButton';
+import DetailsButton from '../../Components/Buttons/DetailsButton';
 
 export default function RecipeDetails() {
   const [loading, setLoading] = useState(true);
@@ -19,6 +19,7 @@ export default function RecipeDetails() {
   const witchPath = pathname.includes('meals');
   const path = witchPath ? 'themealdb' : 'thecocktaildb';
   const shareButtonTestID = 'share-btn';
+  const favoriteBtnTestId = 'favorite-btn';
 
   useEffect(() => {
     const getAPIData = async () => {
@@ -117,7 +118,10 @@ export default function RecipeDetails() {
             </div>)}
           <div>
             <ShareButton pathname={ pathname } testId={ shareButtonTestID } />
-            <FavoriteButton recipeDetail={ recipeDetail[0] } />
+            <FavoriteButton
+              recipeDetail={ recipeDetail[0] }
+              favoriteTestId={ favoriteBtnTestId }
+            />
             <RecommendationCard />
           </div>
           {!isRecipeDone && (

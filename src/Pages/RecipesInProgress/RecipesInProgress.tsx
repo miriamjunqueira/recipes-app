@@ -2,18 +2,21 @@ import { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { DrinksType, MealsType } from '../../Context/UserContext';
 import { fetchRecipesDetailsApi } from '../../Services/API';
-import FavoriteButton from '../RecipeDetails/FavoriteButton';
+import FavoriteButton from '../../Components/Buttons/FavoriteButton';
 import './RecipesInProgress.css';
+import ShareButton from '../../Components/Buttons/ShareButton';
 
 export default function RecipesInProgress() {
   const { pathname } = useLocation();
-
+  const shareButtonTestID = 'share-btn';
   const { id } = useParams();
 
   const [arrayDeIngredientes, setArrayDeIngredientes] = useState<string[]>([]);
   const [arrayDeMedidas, setArrayDeMedidas] = useState<any[]>([]);
   const [receita, setReceita] = useState<any>({});
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
+  const modifiedPathname = pathname.replace('/in-progress', '');
+  const favoriteBtnTestId = 'favorite-btn';
 
   useEffect(() => {
     const getAPIData = async () => {
@@ -22,12 +25,10 @@ export default function RecipesInProgress() {
 
       const getRecipeDetails: { meals: MealsType[],
         drinks: DrinksType[] } = await fetchRecipesDetailsApi(path, id);
-
       let recipe: any;
       if (pathname.includes('meals')) {
         [recipe] = getRecipeDetails.meals;
-      }
-      if (pathname.includes('drinks')) {
+      } else {
         [recipe] = getRecipeDetails.drinks;
       }
 
@@ -52,7 +53,7 @@ export default function RecipesInProgress() {
       // localStorage.setItem('inProgressRecipes', JSON.stringify(vetTemporario));
 
       // Atualiza conforme localStorage:
-      const storedArray = localStorage.getItem('inProgressRecipes');
+      const storedArray = localStorage.getItem('inProgressRecipes') ?? '[]';
       setSelectedIngredients(JSON.parse(storedArray));
 
       const measures = chavesValores.filter((mesure) => {
@@ -67,20 +68,6 @@ export default function RecipesInProgress() {
     };
     getAPIData();
   }, []);
-
-  const handleShareButton = () => {
-    navigator.clipboard.writeText(`http://localhost:3000${pathname}`)
-      .then(() => {
-        const messageElement = document.createElement('div');
-        messageElement.innerHTML = 'Link copied!';
-        document.body.appendChild(messageElement);
-        setTimeout(() => {
-          document.body.removeChild(messageElement);
-        }, 2000);
-      }).catch((err) => {
-        console.error('Erro ao copiar o link: ', err);
-      });
-  };
 
   function confereClick(event: any) {
     const checkbox = event.target.value;
@@ -103,13 +90,8 @@ export default function RecipesInProgress() {
       <div>
         <h3>--- Recipe in progress ---</h3>
 
-        <button
-          data-testid="share-btn"
-          onClick={ handleShareButton }
-        >
-          <img src="../src/images/shareIcon.svg" alt="Botão de compartilhar" />
-        </button>
-        <FavoriteButton recipeDetail={ receita[0] } />
+        <ShareButton pathname={ modifiedPathname } testId={ shareButtonTestID } />
+        <FavoriteButton recipeDetail={ receita } favoriteTestId={ favoriteBtnTestId } />
 
       </div>
 
