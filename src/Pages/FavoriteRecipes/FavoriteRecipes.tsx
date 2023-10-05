@@ -14,6 +14,7 @@ import whiteHeart from '../../images/whiteHeartIcon.svg';
 //   name: nome-da-receita,
 //   image: imagem-da-receita
 // }]
+
 type FavoriteRecipeType = {
   id: string,
   type: 'meal' | 'drink',
@@ -31,11 +32,21 @@ export default function FavoriteRecipes() {
   useEffect(() => {
     const savedFavoriteRecipesJSON = localStorage.getItem('favoriteRecipes') ?? '[]';
     const savedFavoriteRecipes = JSON.parse(savedFavoriteRecipesJSON);
-    setFavoriteRecipes(savedFavoriteRecipes);
-  }, []);
+    // Verifica se o estado atual é diferente das receitas salvas
+    if (JSON.stringify(savedFavoriteRecipes) !== JSON.stringify(favoriteRecipes)) {
+      setFavoriteRecipes(savedFavoriteRecipes);
+    }
+  }, [favoriteRecipes]);
   // Faço o filtro para os botoes e caso clique no all volta para tudo
   const typeOfFilter = filters === 'All' ? favoriteRecipes
     : favoriteRecipes.filter((recipe) => recipe.type === filters);
+
+  const handleFavoriteBtnClick = (id: string) => {
+    const removeFromFavLS = favoriteRecipes
+      .filter((recipe: Record<string, string>) => recipe.id !== id);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(removeFromFavLS));
+    setFavoriteRecipes(removeFromFavLS);
+  };
 
   return (
     <div>
@@ -96,7 +107,7 @@ export default function FavoriteRecipes() {
               pathname={ `/${recipe.type}s/${recipe.id}` }
               testId={ `${index}-horizontal-share-btn` }
             />
-            <button>
+            <button onClick={ () => handleFavoriteBtnClick(recipe.id) }>
               <img
                 data-testid={ `${index}-horizontal-favorite-btn` }
                 src={ blackHeart }
