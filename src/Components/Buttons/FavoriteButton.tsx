@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DrinksType, MealsType, MixedType } from '../../Context/UserContext';
+import blackHeart from '../../images/blackHeartIcon.svg';
+import whiteHeart from '../../images/whiteHeartIcon.svg';
 
 type FavButtonProps = {
   recipeDetail: MixedType
@@ -27,7 +29,7 @@ export default function FavoriteButton({ recipeDetail }: FavButtonProps) {
 
   const handleFavoriteRecipe = () => {
     const newFavRecipe = {
-      id: recipeDetail.idDrink || recipeDetail.idMeal,
+      id: (recipeDetail as DrinksType).idDrink || (recipeDetail as MealsType).idMeal,
       type: recipeDetail.idDrink ? 'drink' : 'meal',
       nationality: recipeDetail.strArea || '',
       category: recipeDetail.strCategory || '',
@@ -57,12 +59,12 @@ export default function FavoriteButton({ recipeDetail }: FavButtonProps) {
     >
       {isFavorite ? <img
         data-testid="favorite-btn"
-        src="../src/images/blackHeartIcon.svg"
+        src={ blackHeart }
         alt="Favorito Preenchido"
       />
         : <img
             data-testid="favorite-btn"
-            src="../src/images/whiteHeartIcon.svg"
+            src={ whiteHeart }
             alt="Favorito Vazio"
         />}
     </button>

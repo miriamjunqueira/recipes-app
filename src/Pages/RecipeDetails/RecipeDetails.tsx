@@ -5,9 +5,9 @@ import { DrinksType, MealsType, MixedType } from '../../Context/UserContext';
 import Loading from '../../Components/Loading';
 import './RecipeDetails.css';
 import RecommendationCard from '../../Components/RecomendationCard/RecomendationCard';
-import FavoriteButton from './FavoriteButton';
-import ShareButton from '../../Components/ShareButton';
-import DetailsButton from './DetailsButton';
+import FavoriteButton from '../../Components/Buttons/FavoriteButton';
+import ShareButton from '../../Components/Buttons/ShareButton';
+import DetailsButton from '../../Components/Buttons/DetailsButton';
 
 export default function RecipeDetails() {
   const [loading, setLoading] = useState(true);

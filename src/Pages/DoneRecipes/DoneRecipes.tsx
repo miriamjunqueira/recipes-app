@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import ShareButton from '../../Components/ShareButton';
+import ShareButton from '../../Components/Buttons/ShareButton';
 
 type DoneRecipe = {
   id: string,
