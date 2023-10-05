@@ -2,7 +2,6 @@ import { screen } from '@testing-library/react';
 import renderWithRouter from '../renderWithRouter';
 import App from '../App';
 import { mockFavoriteRecipes } from './Mocks/MockFavoriteRecipes';
-import blackHeart from '../images/blackHeartIcon.svg';
 
 const rota = '/favorite-recipes';
 
