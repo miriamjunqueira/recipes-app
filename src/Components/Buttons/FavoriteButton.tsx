@@ -4,11 +4,22 @@ import { DrinksType, MealsType, MixedType } from '../../Context/UserContext';
 import blackHeart from '../../images/blackHeartIcon.svg';
 import whiteHeart from '../../images/whiteHeartIcon.svg';
 
-type FavButtonProps = {
-  recipeDetail: MixedType
+type FavoriteRecipeType = {
+  id: string,
+  type: 'meal' | 'drink',
+  nationality: string,
+  category: string,
+  alcoholicOrNot: string,
+  name: string,
+  image: string,
 };
 
-export default function FavoriteButton({ recipeDetail }: FavButtonProps) {
+type FavButtonProps = {
+  recipeDetail: MixedType | FavoriteRecipeType
+  favoriteTestId: string
+};
+
+export default function FavoriteButton({ recipeDetail, favoriteTestId }: FavButtonProps) {
   const { id } = useParams();
   //   [{
   //     id: id-da-receita,
@@ -30,9 +41,9 @@ export default function FavoriteButton({ recipeDetail }: FavButtonProps) {
   const handleFavoriteRecipe = () => {
     const newFavRecipe = {
       id: (recipeDetail as DrinksType).idDrink || (recipeDetail as MealsType).idMeal,
-      type: recipeDetail.idDrink ? 'drink' : 'meal',
-      nationality: recipeDetail.strArea || '',
-      category: recipeDetail.strCategory || '',
+      type: (recipeDetail as MixedType).idDrink ? 'drink' : 'meal',
+      nationality: (recipeDetail as MixedType).strArea || '',
+      category: (recipeDetail as MixedType).strCategory || '',
       alcoholicOrNot: (recipeDetail as DrinksType).strAlcoholic || '',
       name: (recipeDetail as MealsType).strMeal || (recipeDetail as DrinksType).strDrink,
       image: (recipeDetail as MealsType).strMealThumb
@@ -58,12 +69,12 @@ export default function FavoriteButton({ recipeDetail }: FavButtonProps) {
       onClick={ handleFavoriteRecipe }
     >
       {isFavorite ? <img
-        data-testid="favorite-btn"
+        data-testid={ favoriteTestId }
         src={ blackHeart }
         alt="Favorito Preenchido"
       />
         : <img
-            data-testid="favorite-btn"
+            data-testid={ favoriteTestId }
             src={ whiteHeart }
             alt="Favorito Vazio"
         />}

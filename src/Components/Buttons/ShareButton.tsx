@@ -24,16 +24,19 @@ export default function ShareButton({ pathname, testId }: ShareButtonProps) {
       });
   };
   return (
-    <div id="toAppend">
-      <button
-        onClick={ handleShareButton }
-      >
-        <img
-          data-testid={ testId }
-          src={ shareIcon }
-          alt="Botão de compartilhar"
-        />
-      </button>
-    </div>
+    <>
+      <div>
+        <button
+          onClick={ handleShareButton }
+        >
+          <img
+            data-testid={ testId }
+            src={ shareIcon }
+            alt="Botão de compartilhar"
+          />
+        </button>
+      </div>
+      <div id="toAppend">{}</div>
+    </>
   );
 }

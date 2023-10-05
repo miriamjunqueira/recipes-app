@@ -19,6 +19,7 @@ export default function RecipeDetails() {
   const witchPath = pathname.includes('meals');
   const path = witchPath ? 'themealdb' : 'thecocktaildb';
   const shareButtonTestID = 'share-btn';
+  const favoriteBtnTestId = 'favorite-btn';
 
   useEffect(() => {
     const getAPIData = async () => {
@@ -117,7 +118,10 @@ export default function RecipeDetails() {
             </div>)}
           <div>
             <ShareButton pathname={ pathname } testId={ shareButtonTestID } />
-            <FavoriteButton recipeDetail={ recipeDetail[0] } />
+            <FavoriteButton
+              recipeDetail={ recipeDetail[0] }
+              favoriteTestId={ favoriteBtnTestId }
+            />
             <RecommendationCard />
           </div>
           {!isRecipeDone && (

@@ -1,8 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ShareButton from '../../Components/Buttons/ShareButton';
+import FavoriteButton from '../../Components/Buttons/FavoriteButton';
+import { MealsType } from '../../Context/UserContext';
 
-type DoneRecipeType = {
+// Modelo de localstorage
+// [{
+//   id: id-da-receita,
+//   type: meal-ou-drink,
+//   nationality: nacionalidade-da-receita-ou-texto-vazio,
+//   category: categoria-da-receita-ou-texto-vazio,
+//   alcoholicOrNot: alcoholic-ou-non-alcoholic-ou-texto-vazio,
+//   name: nome-da-receita,
+//   image: imagem-da-receita
+// }]
+type FavoriteRecipeType = {
   id: string,
   type: 'meal' | 'drink',
   nationality: string,
@@ -10,23 +22,20 @@ type DoneRecipeType = {
   alcoholicOrNot: string,
   name: string,
   image: string,
-  doneDate: string,
-  tags: string[] | [],
 };
-type LocalStorageDoneType = DoneRecipeType[];
+type LocalStorageFavoriteType = FavoriteRecipeType[];
 
-export default function DoneRecipes() {
-  const [doneRecipes, setDoneRecipes] = useState<LocalStorageDoneType>([]);
+export default function FavoriteRecipes() {
+  const [favoriteRecipes, setFavoriteRecipes] = useState<LocalStorageFavoriteType>([]);
   const [filters, setFilters] = useState('All');
   useEffect(() => {
-    const savedDoneRecipesJSON = localStorage.getItem('doneRecipes') ?? '[]';
-    const savedDoneRecipes = JSON.parse(savedDoneRecipesJSON);
-    setDoneRecipes(savedDoneRecipes);
+    const savedFavoriteRecipesJSON = localStorage.getItem('favoriteRecipes') ?? '[]';
+    const savedFavoriteRecipes = JSON.parse(savedFavoriteRecipesJSON);
+    setFavoriteRecipes(savedFavoriteRecipes);
   }, []);
   // Faço o filtro para os botoes e caso clique no all volta para tudo
-  const typeOfFilter = filters === 'All' ? doneRecipes
-    : doneRecipes.filter((recipe) => recipe.type === filters);
-
+  const typeOfFilter = filters === 'All' ? favoriteRecipes
+    : favoriteRecipes.filter((recipe) => recipe.type === filters);
   return (
     <div>
       <button
@@ -60,6 +69,10 @@ export default function DoneRecipes() {
                 <h5 data-testid={ `${index}-horizontal-top-text` }>
                   {`${recipe.nationality} - ${recipe.category}`}
                 </h5>
+                {/* <ShareButton
+                  pathname={ `/${recipe.type}s/${recipe.id}` }
+                  testId={ `${index}-horizontal-share-btn` }
+                /> */}
               </div>
             ) : (
               <div>
@@ -70,7 +83,7 @@ export default function DoneRecipes() {
                 </Link>
                 <h5 data-testid={ `${index}-horizontal-top-text` }>
                   {`${recipe.nationality} - 
-                  ${recipe.category} - ${recipe.alcoholicOrNot}`}
+                ${recipe.category} - ${recipe.alcoholicOrNot}`}
                 </h5>
               </div>
             )}
@@ -82,20 +95,10 @@ export default function DoneRecipes() {
                 width={ 80 }
               />
             </Link>
-            <p data-testid={ `${index}-horizontal-done-date` }>{recipe.doneDate}</p>
             <ShareButton
               pathname={ `/${recipe.type}s/${recipe.id}` }
               testId={ `${index}-horizontal-share-btn` }
             />
-            {recipe.tags && recipe.tags.map((tag, i) => (
-              <div key={ i }>
-                <span
-                  data-testid={ `${index}-${tag}-horizontal-tag` }
-                >
-                  {tag}
-                </span>
-              </div>
-            ))}
           </div>
         ))}
       </div>

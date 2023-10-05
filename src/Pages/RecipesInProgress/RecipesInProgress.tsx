@@ -16,6 +16,7 @@ export default function RecipesInProgress() {
   const [receita, setReceita] = useState<any>({});
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
   const modifiedPathname = pathname.replace('/in-progress', '');
+  const favoriteBtnTestId = 'favorite-btn';
 
   useEffect(() => {
     const getAPIData = async () => {
@@ -90,7 +91,7 @@ export default function RecipesInProgress() {
         <h3>--- Recipe in progress ---</h3>
 
         <ShareButton pathname={ modifiedPathname } testId={ shareButtonTestID } />
-        <FavoriteButton recipeDetail={ receita } />
+        <FavoriteButton recipeDetail={ receita } favoriteTestId={ favoriteBtnTestId } />
 
       </div>
 
