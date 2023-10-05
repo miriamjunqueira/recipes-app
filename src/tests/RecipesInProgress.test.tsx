@@ -4,7 +4,7 @@ import * as APIModules from '../Services/API';
 import RecipesInProgress from '../Pages/RecipesInProgress/RecipesInProgress';
 import renderWithRouter from '../renderWithRouter';
 
-describe.only('Testa a página de receitas em progresso', () => {
+describe('Testa a página de receitas em progresso', () => {
   test('Testa elementos na tela conforme path /meals', async () => {
     renderWithRouter(<RecipesInProgress />, { route: '/meals/52771/in-progress' });
     const recipeTitle = await screen.findAllByTestId('recipe-title');
