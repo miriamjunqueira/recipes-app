@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ShareButton from '../../Components/Buttons/ShareButton';
 import blackHeart from '../../images/blackHeartIcon.svg';
-import whiteHeart from '../../images/whiteHeartIcon.svg';
 
 // Modelo de localstorage
 // [{
@@ -70,7 +69,7 @@ export default function FavoriteRecipes() {
       </button>
       <div>
         {typeOfFilter.map((recipe, index) => (
-          <div key={ index }>
+          <div key={ index } id="card">
             {recipe.type === 'meal' ? (
               <div>
                 <Link to={ `/${recipe.type}s/${recipe.id}` }>
