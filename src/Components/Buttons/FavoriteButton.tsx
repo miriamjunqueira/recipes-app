@@ -4,18 +4,8 @@ import { DrinksType, MealsType, MixedType } from '../../Context/UserContext';
 import blackHeart from '../../images/blackHeartIcon.svg';
 import whiteHeart from '../../images/whiteHeartIcon.svg';
 
-type FavoriteRecipeType = {
-  id: string,
-  type: 'meal' | 'drink',
-  nationality: string,
-  category: string,
-  alcoholicOrNot: string,
-  name: string,
-  image: string,
-};
-
 type FavButtonProps = {
-  recipeDetail: MixedType | FavoriteRecipeType
+  recipeDetail: MixedType
   favoriteTestId: string
 };
 
@@ -41,9 +31,9 @@ export default function FavoriteButton({ recipeDetail, favoriteTestId }: FavButt
   const handleFavoriteRecipe = () => {
     const newFavRecipe = {
       id: (recipeDetail as DrinksType).idDrink || (recipeDetail as MealsType).idMeal,
-      type: (recipeDetail as MixedType).idDrink ? 'drink' : 'meal',
-      nationality: (recipeDetail as MixedType).strArea || '',
-      category: (recipeDetail as MixedType).strCategory || '',
+      type: recipeDetail.idDrink ? 'drink' : 'meal',
+      nationality: recipeDetail.strArea || '',
+      category: recipeDetail.strCategory || '',
       alcoholicOrNot: (recipeDetail as DrinksType).strAlcoholic || '',
       name: (recipeDetail as MealsType).strMeal || (recipeDetail as DrinksType).strDrink,
       image: (recipeDetail as MealsType).strMealThumb
