@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ShareButton from '../../Components/Buttons/ShareButton';
-import FavoriteButton from '../../Components/Buttons/FavoriteButton';
-import { MealsType } from '../../Context/UserContext';
+import blackHeart from '../../images/blackHeartIcon.svg';
+import whiteHeart from '../../images/whiteHeartIcon.svg';
 
 // Modelo de localstorage
 // [{
@@ -36,6 +36,7 @@ export default function FavoriteRecipes() {
   // Faço o filtro para os botoes e caso clique no all volta para tudo
   const typeOfFilter = filters === 'All' ? favoriteRecipes
     : favoriteRecipes.filter((recipe) => recipe.type === filters);
+
   return (
     <div>
       <button
@@ -69,10 +70,6 @@ export default function FavoriteRecipes() {
                 <h5 data-testid={ `${index}-horizontal-top-text` }>
                   {`${recipe.nationality} - ${recipe.category}`}
                 </h5>
-                {/* <ShareButton
-                  pathname={ `/${recipe.type}s/${recipe.id}` }
-                  testId={ `${index}-horizontal-share-btn` }
-                /> */}
               </div>
             ) : (
               <div>
@@ -99,6 +96,13 @@ export default function FavoriteRecipes() {
               pathname={ `/${recipe.type}s/${recipe.id}` }
               testId={ `${index}-horizontal-share-btn` }
             />
+            <button>
+              <img
+                data-testid={ `${index}-horizontal-favorite-btn` }
+                src={ blackHeart }
+                alt="Botão favorito"
+              />
+            </button>
           </div>
         ))}
       </div>
